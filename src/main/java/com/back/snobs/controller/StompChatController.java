@@ -2,6 +2,7 @@ package com.back.snobs.controller;
 
 import com.back.snobs.dto.chatroom.chatmessage.ChatMessageDto;
 import com.back.snobs.service.ChatMessageService;
+import com.back.snobs.service.ChatMessageServiceRdb;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class StompChatController {
     private final ChatMessageService chatMessageService;
+//    private final ChatMessageServiceRdb chatMessageService;
     private final SimpMessagingTemplate template;
 
     @MessageMapping(value = "/chat/enter")

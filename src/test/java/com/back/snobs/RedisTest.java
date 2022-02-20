@@ -1,5 +1,6 @@
 package com.back.snobs;
 
+import com.back.snobs.dto.chatroom.chatmessage.ChatMessageDto;
 import com.back.snobs.redisTest.RedisChat;
 import com.back.snobs.service.ChatMessageService;
 import org.junit.jupiter.api.Test;
@@ -69,16 +70,16 @@ class RedisTest {
         zSetOperations.removeRange("abc", 0, -1);
     }
 
-//    @Test
-//    void insertMessages() {
-//        ChatMessageDto chatMessageDto = ChatMessageDto.builder()
-//                .chatRoomIdx(1L)
-//                .message("asdf")
-//                .userIdx("8d9ef0a4-239f-4ec9-bb99-ea516325cae2")
-//                .createDate(1L)
-//                .build();
-//        for(int i = 0; i < 100000; i++) {
-//            chatMessageService.saveMessage(chatMessageDto);
-//        }
-//    }
+    @Test
+    void insertMessages() {
+        ChatMessageDto chatMessageDto = ChatMessageDto.builder()
+                .chatRoomIdx(5L)
+                .message("asdf")
+                .userIdx("8d9ef0a4-239f-4ec9-bb99-ea516325cae2")
+                .createDate(1L)
+                .build();
+        for(int i = 0; i < 100000; i++) {
+            chatMessageService.saveMessage(chatMessageDto);
+        }
+    }
 }

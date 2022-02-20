@@ -4,6 +4,7 @@ import com.back.snobs.error.CustomResponse;
 import com.back.snobs.security.UserPrincipal;
 import com.back.snobs.security.oauth2.CurrentUser;
 import com.back.snobs.service.ChatMessageService;
+import com.back.snobs.service.ChatMessageServiceRdb;
 import com.back.snobs.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/chat")
 public class ChatRoomController {
     private final ChatRoomService chatRoomService;
+//    private final ChatMessageServiceRdb chatMessageService;
     private final ChatMessageService chatMessageService;
 
     @PostMapping(value = "/room")
