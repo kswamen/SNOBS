@@ -9,4 +9,4 @@
 <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
 
 # What is SNOBS?
-<a href="https://www.notion.so/SNOBS-2b3509031d6748feb1232decfe277aa6">LINK</a>
+<a href="https://www.notion.so/SNOBS-2b3509031d6748feb1232decfe277aa6">기능 명세 문서 LINK</a>
