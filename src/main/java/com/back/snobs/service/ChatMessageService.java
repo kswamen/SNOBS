@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class ChatMessageService {
+public class ChatMessageService implements ChatMessageServiceInterface{
     private final RedisTemplate redisTemplate;
     private ZSetOperations<String, ChatMessage> zSetOperations;
 

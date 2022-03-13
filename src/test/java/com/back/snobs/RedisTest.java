@@ -1,8 +1,11 @@
 package com.back.snobs;
 
+import com.back.snobs.dto.chatroom.ChatRoom;
+import com.back.snobs.dto.chatroom.ChatRoomRepository;
 import com.back.snobs.dto.chatroom.chatmessage.ChatMessageDto;
 import com.back.snobs.redisTest.RedisChat;
 import com.back.snobs.service.ChatMessageService;
+import com.back.snobs.service.ChatMessageServiceRdb;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,10 +13,7 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @SpringBootTest
 class RedisTest {
@@ -22,6 +22,12 @@ class RedisTest {
 
     @Autowired
     ChatMessageService chatMessageService;
+
+    @Autowired
+    ChatMessageServiceRdb chatMessageServiceRdb;
+
+    @Autowired
+    ChatRoomRepository chatRoomRepository;
 
     @Test
     void setHashOps() {
@@ -80,6 +86,42 @@ class RedisTest {
                 .build();
         for(int i = 0; i < 100000; i++) {
             chatMessageService.saveMessage(chatMessageDto);
+        }
+    }
+
+    @Test
+    void insertMessageUsingRedis() {
+        List<ChatRoom> chatRoomList = chatRoomRepository.findAll();
+        for (ChatRoom chatRoom : chatRoomList) {
+            Long idx = chatRoom.getChatRoomIdx();
+
+            for (int i = 0; i <= 10000; i++) {
+                ChatMessageDto chatMessageDto = ChatMessageDto.builder()
+                        .chatRoomIdx(idx)
+                        .message("asdf")
+                        .userIdx("7a450833-f07d-4336-afbe-6dc75ce47178")
+                        .createDate(System.currentTimeMillis())
+                        .build();
+                chatMessageService.saveMessage(chatMessageDto);
+            }
+        }
+    }
+
+    @Test
+    void insertMessageUsingRdb() {
+        List<ChatRoom> chatRoomList = chatRoomRepository.findAll();
+        for (ChatRoom chatRoom : chatRoomList) {
+            Long idx = chatRoom.getChatRoomIdx();
+
+            for (int i = 0; i <= 100; i++) {
+                ChatMessageDto chatMessageDto = ChatMessageDto.builder()
+                        .chatRoomIdx(idx)
+                        .message("asdf")
+                        .userIdx("7a450833-f07d-4336-afbe-6dc75ce47178")
+                        .createDate(System.currentTimeMillis())
+                        .build();
+                chatMessageServiceRdb.saveMessage(chatMessageDto);
+            }
         }
     }
 }

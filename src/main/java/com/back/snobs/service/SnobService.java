@@ -190,17 +190,13 @@ public class SnobService {
     public ResponseEntity<CustomResponse> getSnobBookTest(String userEmail) {
         List<SnobBook> ls = snobBookRepository.findBySnob_UserEmail(userEmail);
         List<Object> books = new ArrayList<>();
-        for (SnobBook sb: ls) {
-            // 실제 칼럼 값을 가져오는게 아니라 getBook하면
-            // 그냥 프록시 객체만 가져옴
-            books.add(sb.getBook().getTitle());
-        }
 
         for (SnobBook sb: ls) {
             // 실제 칼럼 값을 가져오는게 아니라 getBook하면
             // 그냥 프록시 객체만 가져옴
             books.add(sb.getBook().getTitle());
-            sb.getBook();
+            Book b = sb.getBook();
+            System.out.println(b);
         }
 
         return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, books), HttpStatus.valueOf(200));

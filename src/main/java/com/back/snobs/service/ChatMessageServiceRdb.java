@@ -22,7 +22,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class ChatMessageServiceRdb {
+public class ChatMessageServiceRdb implements ChatMessageServiceInterface{
     private final ChatMessageRepositoryRdb chatMessageRepositoryRdb;
     private final ChatRoomRepository chatRoomRepository;
     private final SnobRepository snobRepository;
