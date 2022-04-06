@@ -77,6 +77,17 @@ class RedisTest {
     }
 
     @Test
+    void someTest() {
+        ZSetOperations<String, RedisChat> zSetOperations = redisTemplate.opsForZSet();
+        Set<RedisChat> set = zSetOperations.range("CHATROOM32758", 0, -1);
+    }
+
+    @Test
+    void someTest2() {
+        chatMessageServiceRdb.getMessage(37158L);
+    }
+
+    @Test
     void insertMessages() {
         ChatMessageDto chatMessageDto = ChatMessageDto.builder()
                 .chatRoomIdx(5L)
@@ -92,10 +103,9 @@ class RedisTest {
     @Test
     void insertMessageUsingRedis() {
         List<ChatRoom> chatRoomList = chatRoomRepository.findAll();
-        for (ChatRoom chatRoom : chatRoomList) {
-            Long idx = chatRoom.getChatRoomIdx();
-
-            for (int i = 0; i <= 10000; i++) {
+        List<Long> arr = Arrays.asList(32758L, 38878L);
+        for (Long idx: arr) {
+            for (int i = 0; i <= 100000; i++) {
                 ChatMessageDto chatMessageDto = ChatMessageDto.builder()
                         .chatRoomIdx(idx)
                         .message("asdf")
@@ -110,10 +120,9 @@ class RedisTest {
     @Test
     void insertMessageUsingRdb() {
         List<ChatRoom> chatRoomList = chatRoomRepository.findAll();
-        for (ChatRoom chatRoom : chatRoomList) {
-            Long idx = chatRoom.getChatRoomIdx();
-
-            for (int i = 0; i <= 100; i++) {
+        List<Long> arr = Arrays.asList(32758L, 38878L);
+        for (Long idx : arr) {
+            for (int i = 0; i <= 100000; i++) {
                 ChatMessageDto chatMessageDto = ChatMessageDto.builder()
                         .chatRoomIdx(idx)
                         .message("asdf")

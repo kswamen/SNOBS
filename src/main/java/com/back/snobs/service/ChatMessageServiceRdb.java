@@ -2,7 +2,6 @@ package com.back.snobs.service;
 
 import com.back.snobs.dto.chatroom.ChatRoom;
 import com.back.snobs.dto.chatroom.ChatRoomRepository;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessage;
 import com.back.snobs.dto.chatroom.chatmessage.ChatMessageDto;
 import com.back.snobs.dto.chatroom.chatmessage.ChatMessageRdb;
 import com.back.snobs.dto.chatroom.chatmessage.ChatMessageRepositoryRdb;
@@ -17,8 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +43,8 @@ public class ChatMessageServiceRdb implements ChatMessageServiceInterface{
 
     public ResponseEntity<CustomResponse> getMessage(Long chatRoomIdx) {
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomIdx).orElseThrow();
-        List<ChatMessageRdb> chatMessageRdbList = chatMessageRepositoryRdb.findTop5000ByChatRoomOrderByCreateDateDesc(chatRoom);
+        List<ChatMessageRdb> chatMessageRdbList = chatMessageRepositoryRdb.findTop1000ByChatRoomOrderByCreateDateDesc(chatRoom);
+        Collections.reverse(chatMessageRdbList);
         List<ChatMessageDto> tempList = new ArrayList<>();
         for(ChatMessageRdb chatMessageRdb: chatMessageRdbList) {
             ChatMessageDto chatMessageDto = new ChatMessageDto();

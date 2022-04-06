@@ -26,6 +26,8 @@ public class UserController {
     @GetMapping("/api/user/me")
     @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
     public Snob getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+        System.out.println(userPrincipal.toString());
+
         return snobRepository.findById(userPrincipal.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getEmail()));
     }

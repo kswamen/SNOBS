@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
     @ExceptionHandler(EmailDuplicateException.class)
     public ResponseEntity<CustomResponse> handleEmailDuplicateException(EmailDuplicateException ex){
         log.error("handleEmailDuplicateException", ex);

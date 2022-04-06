@@ -76,6 +76,6 @@ public class AuthService {
                 .buildAndExpand(result.getUserEmail()).toUri();
 
         return ResponseEntity.created(location)
-                .body(new ApiResponse(true, "User registered successfully@"));
+                .body(new ApiResponse(true, "User registered successfully!"));
     }
 }

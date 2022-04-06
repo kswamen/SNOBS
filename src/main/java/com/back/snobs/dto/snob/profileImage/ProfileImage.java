@@ -20,7 +20,7 @@ public class ProfileImage extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long profileImageIdx;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JsonIgnore
     @JoinColumn(name = "writerEmail")
     private Snob snob;

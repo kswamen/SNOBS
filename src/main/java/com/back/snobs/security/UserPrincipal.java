@@ -1,6 +1,7 @@
 package com.back.snobs.security;
 
 import com.back.snobs.dto.snob.Snob;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+@ToString
 public class UserPrincipal implements OAuth2User, UserDetails {
     private String email;
     private String password;

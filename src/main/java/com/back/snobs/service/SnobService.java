@@ -194,8 +194,9 @@ public class SnobService {
         for (SnobBook sb: ls) {
             // 실제 칼럼 값을 가져오는게 아니라 getBook하면
             // 그냥 프록시 객체만 가져옴
-            books.add(sb.getBook().getTitle());
+//            books.add(sb.getBook().getTitle());
             Book b = sb.getBook();
+            books.add(b);
             System.out.println(b);
         }
 

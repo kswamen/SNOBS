@@ -22,28 +22,28 @@ public class SnobsScheduler {
 
 //    @Scheduled(cron = "0 0 * * * *")
 //    @Scheduled(cron = "0 0 0 * * *")
-//    @Scheduled(fixedDelay = 36000000)
+    @Scheduled(fixedDelay = 36000000)
     public void scheduledTask() {
         dailyLogService.deleteAllDailyLogInBatch();
         LocalDateTime now = LocalDateTime.now();
 
-        // 3일이 지난 리액션 삭제
-        List<Reaction> reactionList = dailyLogService.findAllReactions();
-        for(Reaction reaction: reactionList) {
-            LocalDateTime dt = reaction.getCreateDate();
-            if(ChronoUnit.DAYS.between(dt, now) > 3) {
-                dailyLogService.deleteReaction(reaction);
-            }
-        }
-
-        // 3일이 지난 채팅방 삭제
-        List<ChatRoom> chatRoomList = dailyLogService.findAllChatRooms();
-        for(ChatRoom chatRoom: chatRoomList) {
-            LocalDateTime dt = chatRoom.getCreateDate();
-            if(ChronoUnit.DAYS.between(dt, now) > 3) {
-                dailyLogService.deleteChatRoom(chatRoom);
-            }
-        }
+//        // 3일이 지난 리액션 삭제
+//        List<Reaction> reactionList = dailyLogService.findAllReactions();
+//        for(Reaction reaction: reactionList) {
+//            LocalDateTime dt = reaction.getCreateDate();
+//            if(ChronoUnit.DAYS.between(dt, now) > 3) {
+//                dailyLogService.deleteReaction(reaction);
+//            }
+//        }
+//
+//        // 3일이 지난 채팅방 삭제
+//        List<ChatRoom> chatRoomList = dailyLogService.findAllChatRooms();
+//        for(ChatRoom chatRoom: chatRoomList) {
+//            LocalDateTime dt = chatRoom.getCreateDate();
+//            if(ChronoUnit.DAYS.between(dt, now) > 3) {
+//                dailyLogService.deleteChatRoom(chatRoom);
+//            }
+//        }
 
         List<Snob> snobList = dailyLogService.findAllSnobs();
         List<Log> logList = dailyLogService.findAllLogs();
