@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class StompChatController {
-//    private final ChatMessageService chatMessageService;
-    private final ChatMessageServiceRdb chatMessageService;
+    private final ChatMessageService chatMessageService;
+//    private final ChatMessageServiceRdb chatMessageService;
     private final SimpMessagingTemplate template;
 
     @MessageMapping(value = "/chat/enter")

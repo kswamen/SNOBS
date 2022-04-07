@@ -27,12 +27,9 @@ public class ChatMessageServiceRdb implements ChatMessageServiceInterface{
     private final SnobRepository snobRepository;
 
     public ChatMessageDto saveMessage(ChatMessageDto chatMessageDto) {
-        ChatRoom chatRoom = chatRoomRepository.findById(chatMessageDto.getChatRoomIdx()).orElseThrow();
-        Snob snob = snobRepository.findBySnobIdx(chatMessageDto.getUserIdx()).orElseThrow();
-
         ChatMessageRdb chatMessageRdb = chatMessageRepositoryRdb.save(ChatMessageRdb.builder()
-                .chatRoom(chatRoom)
-                .snob(snob)
+                .chatRoomIdx(chatMessageDto.getChatRoomIdx())
+                .userIdx(chatMessageDto.getUserIdx())
                 .message(chatMessageDto.getMessage()).build());
 
         long now = System.currentTimeMillis();
@@ -43,14 +40,14 @@ public class ChatMessageServiceRdb implements ChatMessageServiceInterface{
 
     public ResponseEntity<CustomResponse> getMessage(Long chatRoomIdx) {
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomIdx).orElseThrow();
-        List<ChatMessageRdb> chatMessageRdbList = chatMessageRepositoryRdb.findTop1000ByChatRoomOrderByCreateDateDesc(chatRoom);
+        List<ChatMessageRdb> chatMessageRdbList = chatMessageRepositoryRdb.findTop1000ByChatRoomIdxOrderByCreateDateDesc(chatRoomIdx);
         Collections.reverse(chatMessageRdbList);
         List<ChatMessageDto> tempList = new ArrayList<>();
         for(ChatMessageRdb chatMessageRdb: chatMessageRdbList) {
             ChatMessageDto chatMessageDto = new ChatMessageDto();
-            chatMessageDto.setUserIdx(chatMessageRdb.getSnob().getSnobIdx());
+            chatMessageDto.setUserIdx(chatMessageRdb.getUserIdx());
             chatMessageDto.setMessage(chatMessageRdb.getMessage());
-            chatMessageDto.setCreateDate(chatMessageRdb.getCreateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+            chatMessageDto.setCreateDate(chatMessageRdb.getCreateDate());
             tempList.add(chatMessageDto);
         }
 

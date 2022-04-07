@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/chat")
 public class ChatRoomController {
     private final ChatRoomService chatRoomService;
-    private final ChatMessageServiceRdb chatMessageService;
-//    private final ChatMessageService chatMessageService;
+//    private final ChatMessageServiceRdb chatMessageService;
+    private final ChatMessageService chatMessageService;
 
     @PostMapping(value = "/room")
     @PreAuthorize("hasRole('GRANTED_USER')")

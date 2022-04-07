@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.TimeZone;
 
 @Getter
 @RequiredArgsConstructor
@@ -24,9 +27,16 @@ public class ChatRoom extends BaseTimeEntity {
     @JoinColumn
     private Snob senderSnob;
 
+    private Long lastMessageSaved;
+
     @Builder
-    public ChatRoom(Snob receiverSnob, Snob senderSnob) {
+    public ChatRoom(Snob receiverSnob, Snob senderSnob, Long lastMessageSaved) {
         this.receiverSnob = receiverSnob;
         this.senderSnob = senderSnob;
+        this.lastMessageSaved = lastMessageSaved;
+    }
+
+    public void setLastMessageSaved(Long modifiedTime) {
+        this.lastMessageSaved = modifiedTime;
     }
 }
