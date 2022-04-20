@@ -3,7 +3,10 @@ package com.back.snobs;
 import com.back.snobs.dto.chatroom.ChatRoom;
 import com.back.snobs.dto.chatroom.ChatRoomRepository;
 import com.back.snobs.dto.chatroom.chatmessage.ChatMessageDto;
-import com.back.snobs.redisTest.RedisChat;
+import com.back.snobs.dto.chatroom.chatmessage.ChatMessageRdb;
+import com.back.snobs.dto.chatroom.chatmessage.ChatMessageRepositoryRdb;
+import com.back.snobs.dto.snob.Snob;
+import com.back.snobs.dto.snob.SnobRepository;
 import com.back.snobs.service.ChatMessageService;
 import com.back.snobs.service.ChatMessageServiceRdb;
 import org.junit.jupiter.api.Test;
@@ -27,7 +30,13 @@ class RedisTest {
     ChatMessageServiceRdb chatMessageServiceRdb;
 
     @Autowired
+    ChatMessageRepositoryRdb chatMessageRepositoryRdb;
+
+    @Autowired
     ChatRoomRepository chatRoomRepository;
+
+    @Autowired
+    SnobRepository snobRepository;
 
     @Test
     void setHashOps() {
@@ -56,47 +65,44 @@ class RedisTest {
     }
 
     @Test
-    void zSetOps() {
-        ZSetOperations<String, RedisChat> zSetOperations = redisTemplate.opsForZSet();
-        for(int i = 0; i <= 100; i++) {
-            long now = System.currentTimeMillis();
-            RedisChat redisChat = new RedisChat(UUID.randomUUID().toString(), now);
-            zSetOperations.add("abc", redisChat, now);
-        }
-
-        Set<RedisChat> set = zSetOperations.range("abc", 0, -1);
-        Iterator<RedisChat> iter = set.iterator();
-        int i = 1;
-        while(iter.hasNext()) {
-            System.out.println(i++ + " ");
-            RedisChat rc = iter.next();
-            System.out.println(rc.getRoomIdx() + " " + rc.getMessage());
-        }
-
-        zSetOperations.removeRange("abc", 0, -1);
-    }
-
-    @Test
-    void someTest() {
-        ZSetOperations<String, RedisChat> zSetOperations = redisTemplate.opsForZSet();
-        Set<RedisChat> set = zSetOperations.range("CHATROOM32758", 0, -1);
-    }
-
-    @Test
     void someTest2() {
         chatMessageServiceRdb.getMessage(37158L);
     }
 
     @Test
-    void insertMessages() {
-        ChatMessageDto chatMessageDto = ChatMessageDto.builder()
-                .chatRoomIdx(5L)
-                .message("asdf")
-                .userIdx("8d9ef0a4-239f-4ec9-bb99-ea516325cae2")
-                .createDate(1L)
-                .build();
-        for(int i = 0; i < 100000; i++) {
-            chatMessageService.saveMessage(chatMessageDto);
+    void insertMessages() throws InterruptedException {
+        List<ChatRoom> chatRoomList = chatRoomRepository.findAll();
+//        Snob a = snobRepository.findBySnobIdx("016f0fa0-6d8f-4bb2-a03c-aa76ab551b5e").orElse(null);
+//        Snob b = snobRepository.findBySnobIdx("79f72adc-fdfc-4044-a855-f1a27c720ee2").orElse(null);
+//        for (int i = 0; i <= 100000; i++) {
+//            chatRoomRepository.save(ChatRoom.builder()
+//                    .senderSnob(a)
+//                    .receiverSnob(b)
+//                    .build());
+//        }
+
+        List<String> userIdx = Arrays.asList("79f72adc-fdfc-4044-a855-f1a27c720ee2", "016f0fa0-6d8f-4bb2-a03c-aa76ab551b5e");
+        for (ChatRoom chatRoom : chatRoomList) {
+            for (int i = 0; i <= 1000; i++) {
+                int idx = i % 2;
+                if (idx == 0) {
+                    chatMessageRepositoryRdb.save(ChatMessageRdb.builder()
+                            .chatRoomIdx(chatRoom.getChatRoomIdx())
+                            .message("Message From user 1")
+                            .createDate(System.currentTimeMillis())
+                            .userIdx(userIdx.get(idx))
+                            .build());
+                }
+                else {
+                    chatMessageRepositoryRdb.save(ChatMessageRdb.builder()
+                            .chatRoomIdx(chatRoom.getChatRoomIdx())
+                            .message("Message From user 2")
+                            .createDate(System.currentTimeMillis())
+                            .userIdx((userIdx.get(idx)))
+                            .build());
+                }
+                Thread.sleep(1);
+            }
         }
     }
 

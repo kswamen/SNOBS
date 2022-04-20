@@ -26,16 +26,16 @@ class SnobBookModuleTest {
     private SnobGenreRepository snobGenreRepository;
 
     // SnobBook CRUD
-    @Test
-    void snobBookRead() {
-        List<SnobBook> ls = snobBookRepository.findBySnob_UserEmailWithFetchJoin(
-                "helloThere@naver.com",
-                true
-        );
-        for (SnobBook sb: ls) {
-            System.out.println(sb.getBook().getTitle());
-        }
-    }
+//    @Test
+//    void snobBookRead() {
+//        List<SnobBook> ls = snobBookRepository.findBySnob_UserEmailWithFetchJoin(
+//                "helloThere@naver.com",
+//                true
+//        );
+//        for (SnobBook sb: ls) {
+//            System.out.println(sb.getBook().getTitle());
+//        }
+//    }
 
     @Test
     void snobSave() {

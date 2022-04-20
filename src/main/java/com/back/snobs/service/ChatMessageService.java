@@ -10,10 +10,6 @@ import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import com.back.snobs.util.RedisUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.StringRedisConnection;
-import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.http.HttpStatus;
@@ -25,7 +21,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,16 +55,16 @@ public class ChatMessageService implements ChatMessageServiceInterface{
         for (int i = 0; i < chatMessageRdbList.size(); i++) {
             subItems.add(chatMessageRdbList.get(i));
             if ((i + 1) % batchSize == 0) {
-                batchCount = batchInsert(batchSize, batchCount, subItems);
+                batchCount = batchInsert(batchCount, subItems);
             }
         }
         if (!subItems.isEmpty()) {
-            batchCount = batchInsert(batchSize, batchCount, subItems);
+            batchCount = batchInsert(batchCount, subItems);
         }
         System.out.println("batchCount = " + batchCount);
     }
 
-    private int batchInsert(int batchSize, int batchCount, List<ChatMessageRdb> atMsgs) {
+    private int batchInsert(int batchCount, List<ChatMessageRdb> atMsgs) {
         String query = "INSERT INTO CHAT_MESSAGE_RDB (`create_date`, `chat_room_idx`, `message`, `user_idx`)"
                 + " VALUES (?, ?, ?, ?)";
         jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
@@ -93,6 +88,9 @@ public class ChatMessageService implements ChatMessageServiceInterface{
 
     public ResponseEntity<CustomResponse> getMessage(Long chatRoomIdx) {
         Set<ChatMessage> messages;
+//        List<ChatMessageRdb> chatMessageRdbList = chatMessageRepositoryRdb.findTop1000ByChatRoomIdxOrderByCreateDateDesc(chatRoomIdx);
+//        Collections.reverse(chatMessageRdbList);
+//        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, chatMessageRdbList), HttpStatus.valueOf(200));
 
         // Redis에 키가 존재하지 않으면 RDB에서 읽어와서 저장
         if (!redisTemplate.hasKey(RedisUtils.getChatRoomKey(chatRoomIdx))) {

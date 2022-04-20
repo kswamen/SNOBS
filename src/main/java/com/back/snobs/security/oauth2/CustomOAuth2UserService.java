@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -48,6 +49,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         Optional<Snob> userOptional = snobRepository.findById(oAuth2UserInfo.getEmail());
         Snob user;
+        // 이미 존재하는 유저일 경우, OAuth2 정보에 따라 데이터베이스 업데이트
         if(userOptional.isPresent()) {
             user = userOptional.get();
             if(!user.getLoginType().equals(LoginType.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
@@ -57,6 +59,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             }
             user = updateExistingUser(user, oAuth2UserInfo);
         } else {
+            // 신규 유저는 새로 등록
             user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
 

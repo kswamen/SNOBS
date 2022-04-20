@@ -28,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -186,9 +187,21 @@ public class SnobService {
                 HttpStatus.valueOf(200));
     }
 
+    public ResponseEntity<CustomResponse> getSnobBookTest2(String userEmail) {
+        // 페이징 적용하면 N + 1?
+        PageRequest pageRequest = PageRequest.of(0, 3);
+//        List<Book> books = bookRepository.findByBookWithFetchJoin(userEmail, true, pageRequest);
+        // 왜 join fetch만 적용하면 경고가 안 뜨고 페이징까지 적용해야 경고가 뜨는가?
+        List<Book> books = bookRepository.findByBookWithFetchJoin2(pageRequest);
+
+        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, books),
+                HttpStatus.valueOf(200));
+    }
+
     // fetch join difference test
     public ResponseEntity<CustomResponse> getSnobBookTest(String userEmail) {
-        List<SnobBook> ls = snobBookRepository.findBySnob_UserEmail(userEmail);
+        PageRequest pageRequest = PageRequest.of(0, 3);
+        List<SnobBook> ls = snobBookRepository.findBySnob_UserEmail(userEmail, true, pageRequest);
         List<Object> books = new ArrayList<>();
 
         for (SnobBook sb: ls) {

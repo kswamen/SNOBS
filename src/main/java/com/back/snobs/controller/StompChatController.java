@@ -21,9 +21,11 @@ public class StompChatController {
         template.convertAndSend("/ws/sub/chat/room/" + chatMessageDto.getChatRoomIdx(), chatMessageDto);
     }
 
+    // (prefix)/ws/pub + /chat/message
     @MessageMapping(value = "/chat/message")
     public void message(ChatMessageDto chatMessageDto) {
         chatMessageDto = chatMessageService.saveMessage(chatMessageDto);
+        // 해당 경로를 구독한 구독자들에게 전파
         template.convertAndSend("/ws/sub/chat/room/" + chatMessageDto.getChatRoomIdx(), chatMessageDto);
     }
 }

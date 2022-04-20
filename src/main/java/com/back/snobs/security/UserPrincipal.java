@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+// OAuth2 유저와 일반 ID / PW 유저를 둘 다 지원하기 위해
+// 각각의 인터페이스를 구현한 UserPrincipal 을 사용한다.
 @ToString
 public class UserPrincipal implements OAuth2User, UserDetails {
     private String email;

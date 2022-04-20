@@ -18,13 +18,13 @@ import javax.persistence.*;
 @IdClass(SnobBookId.class)
 public class SnobBook extends BaseTimeEntity {
     @Id
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     @JoinColumn(name = "bookId")
     private Book book;
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     @JoinColumn(name = "userEmail")
     private Snob snob;

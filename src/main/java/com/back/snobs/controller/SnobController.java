@@ -63,6 +63,11 @@ public class SnobController {
         return snobService.getSnobBookTest(userEmail);
     }
 
+    @GetMapping(value = "/bookTest2")
+    public ResponseEntity<CustomResponse> snobGetBookTest2(String userEmail) {
+        return snobService.getSnobBookTest2(userEmail);
+    }
+
     @PostMapping(value = "/book")
     public ResponseEntity<CustomResponse> snobSetBook(String userEmail, String bookId, Boolean readed) {
         return snobService.setSnobBook(userEmail, bookId, readed);

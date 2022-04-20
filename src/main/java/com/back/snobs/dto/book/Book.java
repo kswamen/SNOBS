@@ -1,6 +1,8 @@
 package com.back.snobs.dto.book;
 
 import com.back.snobs.dto.BaseTimeEntity;
+import com.back.snobs.dto.book.snob_book.SnobBook;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
@@ -27,6 +31,10 @@ public class Book extends BaseTimeEntity {
 
     @Column
     private String thumbnailImageUrl;
+
+    @OneToMany(mappedBy = "book")
+    @JsonIgnore
+    private List<SnobBook> snobBooks;
 
     @Builder
     public Book(String bookId, String title, String author, String translator, String thumbnailImageUrl) {
