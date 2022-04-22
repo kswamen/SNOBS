@@ -1,6 +1,9 @@
 package com.back.snobs.config;
 
+import com.back.snobs.service.redispubsub.StompConnectionHandler;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
@@ -14,7 +17,7 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/api/stomp/chat")
-                .setAllowedOrigins("http://localhost:8080", "http://localhost:3099", "http://snobs.co.kr", "https://snobs.co.kr")
+                .setAllowedOrigins("http://localhost:3099", "http://snobs.co.kr", "https://snobs.co.kr")
                 .withSockJS();
     }
 
@@ -25,5 +28,10 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.setApplicationDestinationPrefixes("/ws/pub");
         // 해당 경로를 구독하는 구독자에게 메시지 전달
         registry.enableSimpleBroker("/ws/sub");
+    }
+
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(new StompConnectionHandler());
     }
 }

@@ -2,6 +2,8 @@ package com.back.snobs.service;
 
 import com.back.snobs.config.AuthProperties;
 import com.back.snobs.dto.snob.*;
+import com.back.snobs.error.CustomResponse;
+import com.back.snobs.error.ResponseCode;
 import com.back.snobs.error.exception.BadRequestException;
 import com.back.snobs.payload.ApiResponse;
 import com.back.snobs.payload.AuthResponse;
@@ -10,12 +12,14 @@ import com.back.snobs.payload.SignUpRequest;
 import com.back.snobs.security.TokenProvider;
 import com.back.snobs.util.CookieUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -50,7 +54,8 @@ public class AuthService {
         CookieUtils.addCookie(response, "accessToken", token, authProperties.getAuth().getTokenExpirationMsec());
         CookieUtils.addCookie(response, "refreshToken", refreshToken, authProperties.getAuth().getRefreshTokenExpirationMsec());
 
-        return ResponseEntity.ok(new AuthResponse(token, refreshToken, true));
+        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, new AuthResponse(token, refreshToken, true)),
+                HttpStatus.valueOf(200));
     }
 
     @Transactional
@@ -75,7 +80,7 @@ public class AuthService {
                 .fromCurrentContextPath().path("/user/me")
                 .buildAndExpand(result.getUserEmail()).toUri();
 
-        return ResponseEntity.created(location)
-                .body(new ApiResponse(true, "User registered successfully!"));
+        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, null),
+                HttpStatus.valueOf(200));
     }
 }
