@@ -1,6 +1,6 @@
 package com.back.snobs.security;
 
-import com.back.snobs.dto.snob.Snob;
+import com.back.snobs.domain.snob.Snob;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

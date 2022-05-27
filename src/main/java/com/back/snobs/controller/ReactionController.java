@@ -1,6 +1,6 @@
 package com.back.snobs.controller;
 
-import com.back.snobs.dto.reaction.ReactionDto;
+import com.back.snobs.domain.reaction.ReactionDto;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.security.UserPrincipal;
 import com.back.snobs.security.oauth2.CurrentUser;

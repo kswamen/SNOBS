@@ -1,23 +1,10 @@
 package com.back.snobs;
 
-import com.back.snobs.dto.chatroom.ChatRoom;
-import com.back.snobs.dto.chatroom.ChatRoomRepository;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageDto;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageRdb;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageRepositoryRdb;
-import com.back.snobs.dto.snob.SnobRepository;
-import com.back.snobs.service.ChatMessageService;
-import com.back.snobs.service.ChatMessageServiceRdb;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 @SpringBootTest
 class JasyptApplicationTest {

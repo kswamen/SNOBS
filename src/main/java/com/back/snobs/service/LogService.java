@@ -1,12 +1,12 @@
 package com.back.snobs.service;
 
-import com.back.snobs.dto.book.Book;
-import com.back.snobs.dto.book.BookRepository;
-import com.back.snobs.dto.log.Log;
-import com.back.snobs.dto.log.LogDto;
-import com.back.snobs.dto.log.LogRepository;
-import com.back.snobs.dto.snob.Snob;
-import com.back.snobs.dto.snob.SnobRepository;
+import com.back.snobs.domain.book.Book;
+import com.back.snobs.domain.book.BookRepository;
+import com.back.snobs.domain.log.Log;
+import com.back.snobs.domain.log.LogDto;
+import com.back.snobs.domain.log.LogRepository;
+import com.back.snobs.domain.snob.Snob;
+import com.back.snobs.domain.snob.SnobRepository;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import com.back.snobs.error.exception.DifferentSnobException;

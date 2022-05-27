@@ -1,9 +1,9 @@
 package com.back.snobs.service;
 
-import com.back.snobs.dto.snob.Snob;
-import com.back.snobs.dto.snob.SnobRepository;
-import com.back.snobs.dto.snob.refreshToken.RefreshToken;
-import com.back.snobs.dto.snob.refreshToken.RefreshTokenRepository;
+import com.back.snobs.domain.snob.Snob;
+import com.back.snobs.domain.snob.SnobRepository;
+import com.back.snobs.domain.snob.refreshToken.RefreshToken;
+import com.back.snobs.domain.snob.refreshToken.RefreshTokenRepository;
 import com.back.snobs.error.ResponseCode;
 import com.back.snobs.error.exception.NoDataException;
 import lombok.RequiredArgsConstructor;

@@ -1,14 +1,11 @@
 package com.back.snobs.batch;
 
-import com.back.snobs.dto.chatroom.ChatRoom;
-import com.back.snobs.dto.chatroom.ChatRoomRepository;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessage;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageRdb;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageRepositoryRdb;
-import com.back.snobs.dto.log.Log;
-import com.back.snobs.dto.reaction.Reaction;
-import com.back.snobs.dto.snob.Snob;
-import com.back.snobs.dto.snob.SnobRepository;
+import com.back.snobs.domain.chatroom.ChatRoom;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessage;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessageRdb;
+import com.back.snobs.domain.log.Log;
+import com.back.snobs.domain.reaction.Reaction;
+import com.back.snobs.domain.snob.Snob;
 import com.back.snobs.service.ChatMessageService;
 import com.back.snobs.service.ChatRoomService;
 import com.back.snobs.service.DailyLogService;
@@ -24,7 +21,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -43,7 +39,7 @@ public class SnobsScheduler {
         zSetOperations = redisTemplate.opsForZSet();
     }
 
-//    @Scheduled(fixedDelay = 3600000)
+    @Scheduled(fixedDelay = 3600000)
     public void RedisUpdate() {
         List<ChatRoom> chatRoomList = chatRoomService.findAll();
         // 실제 채팅방 인덱스를 리스트 인덱스에 매핑

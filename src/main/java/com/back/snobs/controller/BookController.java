@@ -1,6 +1,6 @@
 package com.back.snobs.controller;
 
-import com.back.snobs.dto.book.BookDto;
+import com.back.snobs.domain.book.BookDto;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.service.BookService;
 import lombok.RequiredArgsConstructor;

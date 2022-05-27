@@ -1,10 +1,11 @@
 package com.back.snobs.service;
 
-import com.back.snobs.dto.book.Book;
-import com.back.snobs.dto.book.BookDto;
-import com.back.snobs.dto.book.BookRepository;
-import com.back.snobs.dto.book.snob_book.SnobBookRepository;
-import com.back.snobs.dto.snob.SnobRepository;
+import com.back.snobs.domain.book.Book;
+import com.back.snobs.domain.book.BookDto;
+import com.back.snobs.domain.book.BookRepository;
+import com.back.snobs.domain.book.snob_book.SnobBookRepository;
+import com.back.snobs.domain.snob.Snob;
+import com.back.snobs.domain.snob.SnobRepository;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import com.back.snobs.error.exception.NoDataException;
@@ -30,6 +31,14 @@ public class BookService {
     @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String key;
     private final String url = "https://dapi.kakao.com/v3/search/book";
+
+    public ResponseEntity<CustomResponse> findSnob(String userIdx) {
+        Snob snob = snobRepository.findBySnobIdx(userIdx).orElseThrow(() ->
+                new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND));
+
+        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, snob),
+                HttpStatus.valueOf(200));
+    }
 
     // 책 정보 읽어오기
     public ResponseEntity<CustomResponse> read(String bookId) {

@@ -1,9 +1,8 @@
 package com.back.snobs.security.oauth2.user;
 
-import com.back.snobs.dto.snob.LoginType;
+import com.back.snobs.domain.snob.LoginType;
 import com.back.snobs.error.exception.OAuth2AuthenticationProcessingException;
 
-import java.security.AuthProvider;
 import java.util.Map;
 
 public class OAuth2UserInfoFactory {

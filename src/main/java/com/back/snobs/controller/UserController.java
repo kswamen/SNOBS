@@ -1,7 +1,7 @@
 package com.back.snobs.controller;
 
-import com.back.snobs.dto.snob.Snob;
-import com.back.snobs.dto.snob.SnobRepository;
+import com.back.snobs.domain.snob.Snob;
+import com.back.snobs.domain.snob.SnobRepository;
 import com.back.snobs.error.exception.ResourceNotFoundException;
 import com.back.snobs.security.UserPrincipal;
 import com.back.snobs.security.oauth2.CurrentUser;

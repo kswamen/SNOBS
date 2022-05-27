@@ -1,9 +1,9 @@
 package com.back.snobs.service;
 
-import com.back.snobs.dto.mailverification.MailVerification;
-import com.back.snobs.dto.mailverification.MailVerificationRepository;
-import com.back.snobs.dto.snob.Snob;
-import com.back.snobs.dto.snob.SnobRepository;
+import com.back.snobs.domain.mailverification.MailVerification;
+import com.back.snobs.domain.mailverification.MailVerificationRepository;
+import com.back.snobs.domain.snob.Snob;
+import com.back.snobs.domain.snob.SnobRepository;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import com.back.snobs.util.MailHandler;

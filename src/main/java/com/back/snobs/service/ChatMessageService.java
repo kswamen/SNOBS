@@ -1,11 +1,11 @@
 package com.back.snobs.service;
 
-import com.back.snobs.dto.chatroom.ChatRoom;
-import com.back.snobs.dto.chatroom.ChatRoomRepository;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessage;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageDto;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageRdb;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageRepositoryRdb;
+import com.back.snobs.domain.chatroom.ChatRoom;
+import com.back.snobs.domain.chatroom.ChatRoomRepository;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessage;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessageDto;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessageRdb;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessageRepositoryRdb;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import com.back.snobs.util.RedisUtils;
@@ -22,7 +22,6 @@ import javax.annotation.PostConstruct;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 

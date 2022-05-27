@@ -1,6 +1,6 @@
 package com.back.snobs.service;
 
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageDto;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessageDto;
 import com.back.snobs.error.CustomResponse;
 import org.springframework.http.ResponseEntity;
 

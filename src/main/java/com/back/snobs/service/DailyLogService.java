@@ -1,16 +1,16 @@
 package com.back.snobs.service;
 
-import com.back.snobs.dto.chatroom.ChatRoom;
-import com.back.snobs.dto.chatroom.ChatRoomRepository;
-import com.back.snobs.dto.log.Log;
-import com.back.snobs.dto.log.LogRepository;
-import com.back.snobs.dto.reaction.Reaction;
-import com.back.snobs.dto.reaction.ReactionRepository;
-import com.back.snobs.dto.snob.Snob;
-import com.back.snobs.dto.snob.SnobRepository;
-import com.back.snobs.dto.snob.dailyLog.DailyLog;
-import com.back.snobs.dto.snob.dailyLog.DailyLogId;
-import com.back.snobs.dto.snob.dailyLog.DailyLogRepository;
+import com.back.snobs.domain.chatroom.ChatRoom;
+import com.back.snobs.domain.chatroom.ChatRoomRepository;
+import com.back.snobs.domain.log.Log;
+import com.back.snobs.domain.log.LogRepository;
+import com.back.snobs.domain.reaction.Reaction;
+import com.back.snobs.domain.reaction.ReactionRepository;
+import com.back.snobs.domain.snob.Snob;
+import com.back.snobs.domain.snob.SnobRepository;
+import com.back.snobs.domain.snob.dailyLog.DailyLog;
+import com.back.snobs.domain.snob.dailyLog.DailyLogId;
+import com.back.snobs.domain.snob.dailyLog.DailyLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

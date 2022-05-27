@@ -2,11 +2,11 @@ package com.back.snobs.controller;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
-import com.back.snobs.dto.log.Log;
-import com.back.snobs.dto.log.LogRepository;
-import com.back.snobs.dto.snob.Snob;
-import com.back.snobs.dto.snob.SnobRepository;
-import com.back.snobs.dto.snob.profileImage.ProfileImageType;
+import com.back.snobs.domain.log.Log;
+import com.back.snobs.domain.log.LogRepository;
+import com.back.snobs.domain.snob.Snob;
+import com.back.snobs.domain.snob.SnobRepository;
+import com.back.snobs.domain.snob.profileImage.ProfileImageType;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import com.back.snobs.error.exception.NoDataException;

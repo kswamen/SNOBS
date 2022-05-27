@@ -16,11 +16,10 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 @Component
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class StompConnectionHandler implements ChannelInterceptor {
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+    private final RedisTemplate redisTemplate;
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
@@ -30,7 +29,6 @@ public class StompConnectionHandler implements ChannelInterceptor {
         if (accessor.getCommand() == StompCommand.DISCONNECT) {
             try (RedisConnection redisConnection = Objects.requireNonNull(redisTemplate.getConnectionFactory()).getConnection()) {
                 redisConnection.getSubscription();
-                System.out.println(1);
             } catch (Exception e) {
 
             }

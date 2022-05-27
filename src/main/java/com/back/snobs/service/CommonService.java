@@ -1,10 +1,10 @@
 package com.back.snobs.service;
 
-import com.back.snobs.dto.snob.Snob;
-import com.back.snobs.dto.snob.SnobRepository;
-import com.back.snobs.dto.snob.profileImage.ProfileImage;
-import com.back.snobs.dto.snob.profileImage.ProfileImageRepository;
-import com.back.snobs.dto.snob.profileImage.ProfileImageType;
+import com.back.snobs.domain.snob.Snob;
+import com.back.snobs.domain.snob.SnobRepository;
+import com.back.snobs.domain.snob.profileImage.ProfileImage;
+import com.back.snobs.domain.snob.profileImage.ProfileImageRepository;
+import com.back.snobs.domain.snob.profileImage.ProfileImageType;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import lombok.RequiredArgsConstructor;

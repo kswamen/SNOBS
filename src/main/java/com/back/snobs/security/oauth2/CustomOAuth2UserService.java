@@ -1,6 +1,6 @@
 package com.back.snobs.security.oauth2;
 
-import com.back.snobs.dto.snob.*;
+import com.back.snobs.domain.snob.*;
 import com.back.snobs.error.exception.OAuth2AuthenticationProcessingException;
 import com.back.snobs.security.UserPrincipal;
 import com.back.snobs.security.oauth2.user.OAuth2UserInfo;
@@ -12,7 +12,6 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 

@@ -1,6 +1,6 @@
 package com.back.snobs.controller;
 
-import com.back.snobs.dto.log.LogDto;
+import com.back.snobs.domain.log.LogDto;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.security.UserPrincipal;
 import com.back.snobs.security.oauth2.CurrentUser;

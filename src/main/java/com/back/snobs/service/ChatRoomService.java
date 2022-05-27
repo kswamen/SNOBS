@@ -1,10 +1,10 @@
 package com.back.snobs.service;
 
-import com.back.snobs.dto.chatroom.ChatRoom;
-import com.back.snobs.dto.chatroom.ChatRoomRepository;
-import com.back.snobs.dto.reaction.Reaction;
-import com.back.snobs.dto.reaction.ReactionRepository;
-import com.back.snobs.dto.snob.Snob;
+import com.back.snobs.domain.chatroom.ChatRoom;
+import com.back.snobs.domain.chatroom.ChatRoomRepository;
+import com.back.snobs.domain.reaction.Reaction;
+import com.back.snobs.domain.reaction.ReactionRepository;
+import com.back.snobs.domain.snob.Snob;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import com.back.snobs.error.exception.ChatRoomDuplicationException;
@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class ChatRoomService {
         result.addAll(cr1);
         result.addAll(cr2);
 
-        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, result.subList(0, 5)), HttpStatus.valueOf(200));
+        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, result.subList(0, 10)), HttpStatus.valueOf(200));
     }
 
     public List<ChatRoom> findAll() {

@@ -1,6 +1,6 @@
 package com.back.snobs.service.redispubsub;
 
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessage;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;

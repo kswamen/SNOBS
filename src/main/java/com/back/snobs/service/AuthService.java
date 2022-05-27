@@ -1,11 +1,10 @@
 package com.back.snobs.service;
 
 import com.back.snobs.config.AuthProperties;
-import com.back.snobs.dto.snob.*;
+import com.back.snobs.domain.snob.*;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import com.back.snobs.error.exception.BadRequestException;
-import com.back.snobs.payload.ApiResponse;
 import com.back.snobs.payload.AuthResponse;
 import com.back.snobs.payload.LoginRequest;
 import com.back.snobs.payload.SignUpRequest;
@@ -19,7 +18,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 

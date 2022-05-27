@@ -1,6 +1,6 @@
 package com.back.snobs.service.redispubsub;
 
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessage;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

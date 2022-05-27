@@ -1,20 +1,16 @@
 package com.back.snobs;
 
-import com.back.snobs.dto.book.snob_book.SnobBook;
-import com.back.snobs.dto.book.snob_book.SnobBookRepository;
-import com.back.snobs.dto.genre.snob_genre.SnobGenreRepository;
-import com.back.snobs.dto.snob.Gender;
-import com.back.snobs.dto.snob.LoginType;
-import com.back.snobs.dto.snob.Snob;
-import com.back.snobs.dto.snob.SnobRepository;
+import com.back.snobs.domain.book.snob_book.SnobBookRepository;
+import com.back.snobs.domain.genre.snob_genre.SnobGenreRepository;
+import com.back.snobs.domain.snob.Gender;
+import com.back.snobs.domain.snob.LoginType;
+import com.back.snobs.domain.snob.Snob;
+import com.back.snobs.domain.snob.SnobRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 class SnobBookModuleTest {

@@ -1,26 +1,26 @@
 package com.back.snobs.service;
 
-import com.back.snobs.dto.book.Book;
-import com.back.snobs.dto.book.BookRepository;
-import com.back.snobs.dto.book.snob_book.SnobBook;
-import com.back.snobs.dto.book.snob_book.SnobBookId;
-import com.back.snobs.dto.book.snob_book.SnobBookRepository;
-import com.back.snobs.dto.genre.Genre;
-import com.back.snobs.dto.genre.GenreRepository;
-import com.back.snobs.dto.genre.snob_genre.SnobGenre;
-import com.back.snobs.dto.genre.snob_genre.SnobGenreId;
-import com.back.snobs.dto.genre.snob_genre.SnobGenreRepository;
-import com.back.snobs.dto.keyword.Keyword;
-import com.back.snobs.dto.keyword.KeywordRepository;
-import com.back.snobs.dto.keyword.snob_keyword.SnobKeyword;
-import com.back.snobs.dto.keyword.snob_keyword.SnobKeywordId;
-import com.back.snobs.dto.keyword.snob_keyword.SnobKeywordRepository;
-import com.back.snobs.dto.log.Log;
-import com.back.snobs.dto.snob.Snob;
-import com.back.snobs.dto.snob.SnobDto;
-import com.back.snobs.dto.snob.SnobRepository;
-import com.back.snobs.dto.snob.dailyLog.DailyLog;
-import com.back.snobs.dto.snob.dailyLog.DailyLogRepository;
+import com.back.snobs.domain.book.Book;
+import com.back.snobs.domain.book.BookRepository;
+import com.back.snobs.domain.book.snob_book.SnobBook;
+import com.back.snobs.domain.book.snob_book.SnobBookId;
+import com.back.snobs.domain.book.snob_book.SnobBookRepository;
+import com.back.snobs.domain.genre.Genre;
+import com.back.snobs.domain.genre.GenreRepository;
+import com.back.snobs.domain.genre.snob_genre.SnobGenre;
+import com.back.snobs.domain.genre.snob_genre.SnobGenreId;
+import com.back.snobs.domain.genre.snob_genre.SnobGenreRepository;
+import com.back.snobs.domain.keyword.Keyword;
+import com.back.snobs.domain.keyword.KeywordRepository;
+import com.back.snobs.domain.keyword.snob_keyword.SnobKeyword;
+import com.back.snobs.domain.keyword.snob_keyword.SnobKeywordId;
+import com.back.snobs.domain.keyword.snob_keyword.SnobKeywordRepository;
+import com.back.snobs.domain.log.Log;
+import com.back.snobs.domain.snob.Snob;
+import com.back.snobs.domain.snob.SnobDto;
+import com.back.snobs.domain.snob.SnobRepository;
+import com.back.snobs.domain.snob.dailyLog.DailyLog;
+import com.back.snobs.domain.snob.dailyLog.DailyLogRepository;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import com.back.snobs.error.exception.NoDataException;
@@ -190,7 +190,7 @@ public class SnobService {
     public ResponseEntity<CustomResponse> getSnobBookTest2(String userEmail) {
         // 페이징 적용하면 N + 1?
         PageRequest pageRequest = PageRequest.of(0, 3);
-        List<Book> books = bookRepository.findByBookWithFetchJoin(userEmail, true, pageRequest);
+        List<Book> books = bookRepository.findByBookWithJoin(userEmail, true, pageRequest);
         // 왜 join fetch만 적용하면 경고가 안 뜨고 페이징까지 적용해야 경고가 뜨는가?
 //        List<Book> books = bookRepository.findByBookWithFetchJoin2(pageRequest);
 

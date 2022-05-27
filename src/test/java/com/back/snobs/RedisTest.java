@@ -1,12 +1,11 @@
 package com.back.snobs;
 
-import com.back.snobs.dto.chatroom.ChatRoom;
-import com.back.snobs.dto.chatroom.ChatRoomRepository;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageDto;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageRdb;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageRepositoryRdb;
-import com.back.snobs.dto.snob.Snob;
-import com.back.snobs.dto.snob.SnobRepository;
+import com.back.snobs.domain.chatroom.ChatRoom;
+import com.back.snobs.domain.chatroom.ChatRoomRepository;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessageDto;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessageRdb;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessageRepositoryRdb;
+import com.back.snobs.domain.snob.SnobRepository;
 import com.back.snobs.service.ChatMessageService;
 import com.back.snobs.service.ChatMessageServiceRdb;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ZSetOperations;
 
 import java.util.*;
 

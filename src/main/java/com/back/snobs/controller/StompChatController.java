@@ -1,6 +1,6 @@
 package com.back.snobs.controller;
 
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageDto;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessageDto;
 import com.back.snobs.service.ChatMessageService;
 import com.back.snobs.service.redispubsub.RedisPublisher;
 import com.back.snobs.service.redispubsub.RedisSubscriber;
@@ -23,7 +23,7 @@ public class StompChatController {
 
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatMessageDto chatMessageDto) {
-        chatMessageDto.setMessage("새 유저가 채팅방에 참여하였습니다.");
+//        chatMessageDto.setMessage("새 유저가 채팅방에 참여하였습니다.");
 //        template.convertAndSend("/ws/sub/chat/room/" + chatMessageDto.getChatRoomIdx(), chatMessageDto);
         redisMessageListener.addMessageListener(redisSubscriber, RedisUtils.getChannelTopic(chatMessageDto.getChatRoomIdx()));
     }

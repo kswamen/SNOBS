@@ -1,12 +1,11 @@
 package com.back.snobs.service;
 
-import com.back.snobs.dto.chatroom.ChatRoom;
-import com.back.snobs.dto.chatroom.ChatRoomRepository;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageDto;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageRdb;
-import com.back.snobs.dto.chatroom.chatmessage.ChatMessageRepositoryRdb;
-import com.back.snobs.dto.snob.Snob;
-import com.back.snobs.dto.snob.SnobRepository;
+import com.back.snobs.domain.chatroom.ChatRoom;
+import com.back.snobs.domain.chatroom.ChatRoomRepository;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessageDto;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessageRdb;
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessageRepositoryRdb;
+import com.back.snobs.domain.snob.SnobRepository;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
