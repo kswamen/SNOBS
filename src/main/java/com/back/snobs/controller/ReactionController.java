@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.*;
 public class ReactionController {
     private final ReactionService reactionService;
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     @PreAuthorize("hasRole('GRANTED_USER')")
     public ResponseEntity<CustomResponse> saveReaction(@CurrentUser UserPrincipal userPrincipal,
                                                                @RequestBody ReactionDto reactionDto) {
         return reactionService.createReaction(userPrincipal.getEmail(), reactionDto);
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     @PreAuthorize("hasRole('GRANTED_USER')")
     public ResponseEntity<CustomResponse> getReaction(@CurrentUser UserPrincipal userPrincipal) {
         return reactionService.readReaction(userPrincipal.getEmail());

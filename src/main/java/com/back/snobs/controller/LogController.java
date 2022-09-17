@@ -31,13 +31,13 @@ public class LogController {
     }
 
     // 로그 등록
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     @PreAuthorize("hasRole('GRANTED_USER')")
     public ResponseEntity<CustomResponse> logSaveOrUpdate(@CurrentUser UserPrincipal userPrincipal, @RequestBody LogDto logDto) {
         return logService.saveOrUpdate(logDto, userPrincipal.getEmail());
     }
 
-    @DeleteMapping(value = "/")
+    @DeleteMapping(value = "")
     @PreAuthorize("hasRole('GRANTED_USER')")
     public ResponseEntity<CustomResponse> logDelete(@CurrentUser UserPrincipal userPrincipal, Long logIdx) {
         return logService.deleteLog(logIdx, userPrincipal.getEmail());

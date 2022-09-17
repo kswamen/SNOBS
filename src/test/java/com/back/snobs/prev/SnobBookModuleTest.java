@@ -1,4 +1,4 @@
-package com.back.snobs;
+package com.back.snobs.prev;
 
 import com.back.snobs.domain.book.snob_book.SnobBookRepository;
 import com.back.snobs.domain.genre.snob_genre.SnobGenreRepository;

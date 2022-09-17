@@ -19,14 +19,14 @@ public class SnobController {
     private final SnobService snobService;
 
     // Snob Read
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
 //    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
     @PreAuthorize("hasRole('GRANTED_USER')")
     public ResponseEntity<CustomResponse> snobRead(@CurrentUser UserPrincipal userPrincipal) {
         return snobService.read(userPrincipal.getEmail());
     }
 
-    @PatchMapping(value = "/")
+    @PatchMapping(value = "")
     @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
     public ResponseEntity<CustomResponse> snobUpdate(@CurrentUser UserPrincipal userPrincipal, @RequestBody SnobDto snobDto) {
         return snobService.update(snobDto, userPrincipal.getEmail());

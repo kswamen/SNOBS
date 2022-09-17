@@ -37,7 +37,8 @@ public class ChatRoomService {
         result.addAll(cr1);
         result.addAll(cr2);
 
-        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, result.subList(0, 10)), HttpStatus.valueOf(200));
+//        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, result.subList(0, 10)), HttpStatus.valueOf(200));
+        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, result), HttpStatus.valueOf(200));
     }
 
     public List<ChatRoom> findAll() {

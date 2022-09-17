@@ -104,7 +104,7 @@ public class SnobsScheduler {
 
 //    @Scheduled(cron = "0 0 * * * *")
 //    @Scheduled(cron = "0 0 0 * * *")
-//    @Scheduled(fixedDelay = 36000000)
+    @Scheduled(fixedDelay = 36000000)
     public void scheduledTask() {
         dailyLogService.deleteAllDailyLogInBatch();
         LocalDateTime now = LocalDateTime.now();

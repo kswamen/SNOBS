@@ -20,13 +20,13 @@ public class BookController {
     }
 
     // book select
-    @GetMapping(value = "/")
-    public ResponseEntity<CustomResponse> bookRead(@RequestParam(value = "bookId", required = true) String bookId) {
+    @GetMapping(value = "")
+    public ResponseEntity<CustomResponse> bookRead(@RequestParam(value = "bookId") String bookId) {
         return bookService.read(bookId);
     }
 
     // book save
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     public ResponseEntity<CustomResponse> bookSave(@RequestBody BookDto bookDto) {
         return bookService.save(bookDto);
     }

@@ -1,4 +1,4 @@
-package com.back.snobs;
+package com.back.snobs.prev;
 
 import com.back.snobs.domain.chatroom.ChatRoomRepository;
 import com.back.snobs.domain.log.Log;
