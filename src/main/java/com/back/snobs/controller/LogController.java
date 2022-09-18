@@ -20,26 +20,26 @@ public class LogController {
     @GetMapping(value = "/my")
     @PreAuthorize("hasRole('GRANTED_USER')")
     public ResponseEntity<CustomResponse> logRead(@CurrentUser UserPrincipal userPrincipal){
-        return logService.readLog(userPrincipal.getEmail());
+        return logService.read(userPrincipal.getEmail());
     }
 
     // 로그 조회(로그 번호로)
     @GetMapping(value = "/byLogIdx")
     @PreAuthorize("hasRole('GRANTED_USER')")
     public ResponseEntity<CustomResponse> logRead(Long logIdx) {
-        return logService.readLog(logIdx);
+        return logService.read(logIdx);
     }
 
     // 로그 등록
     @PostMapping(value = "")
     @PreAuthorize("hasRole('GRANTED_USER')")
     public ResponseEntity<CustomResponse> logSaveOrUpdate(@CurrentUser UserPrincipal userPrincipal, @RequestBody LogDto logDto) {
-        return logService.saveOrUpdate(logDto, userPrincipal.getEmail());
+        return logService.save(logDto, userPrincipal.getEmail());
     }
 
     @DeleteMapping(value = "")
     @PreAuthorize("hasRole('GRANTED_USER')")
     public ResponseEntity<CustomResponse> logDelete(@CurrentUser UserPrincipal userPrincipal, Long logIdx) {
-        return logService.deleteLog(logIdx, userPrincipal.getEmail());
+        return logService.delete(logIdx, userPrincipal.getEmail());
     }
 }

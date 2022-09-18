@@ -37,11 +37,11 @@ public class RefreshTokenService {
         }
     }
 
-    public boolean isValidRefreshToken(String userEmail, String accessToken) {
+    public boolean isValidRefreshToken(String userEmail, String refreshToken) {
         Snob snob = snobRepository.findById(userEmail).orElseThrow(() -> {
             throw new NoDataException("No User Found", ResponseCode.DATA_NOT_FOUND);
         });
         Optional<RefreshToken> temp = refreshTokenRepository.findBySnob(snob);
-        return temp.isPresent() && temp.get().getToken().equals(accessToken);
+        return temp.isPresent() && temp.get().getToken().equals(refreshToken);
     }
 }

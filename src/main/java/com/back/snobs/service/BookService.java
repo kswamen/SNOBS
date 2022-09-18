@@ -25,20 +25,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class BookService {
-    private final SnobRepository snobRepository;
     private final BookRepository bookRepository;
-    private final SnobBookRepository snobBookRepository;
     @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String key;
-    private final String url = "https://dapi.kakao.com/v3/search/book";
-
-    public ResponseEntity<CustomResponse> findSnob(String userIdx) {
-        Snob snob = snobRepository.findBySnobIdx(userIdx).orElseThrow(() ->
-                new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND));
-
-        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, snob),
-                HttpStatus.valueOf(200));
-    }
+    private String url = "https://dapi.kakao.com/v3/search/book";
 
     // 책 정보 읽어오기
     public ResponseEntity<CustomResponse> read(String bookId) {
@@ -68,11 +58,6 @@ public class BookService {
     // 책 등록
     @Transactional
     public ResponseEntity<CustomResponse> save(BookDto bookDto) {
-        Optional<Book> temp = bookRepository.findById(bookDto.getBookId());
-        if (temp.isPresent()) {
-            return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, temp.get()),
-                    HttpStatus.valueOf(200));
-        }
         Book book = bookDto.toEntity();
         return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, bookRepository.save(book)),
                 HttpStatus.valueOf(200));

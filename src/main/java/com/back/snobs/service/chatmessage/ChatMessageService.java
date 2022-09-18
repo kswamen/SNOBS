@@ -1,4 +1,4 @@
-package com.back.snobs.service;
+package com.back.snobs.service.chatmessage;
 
 import com.back.snobs.domain.chatroom.ChatRoom;
 import com.back.snobs.domain.chatroom.ChatRoomRepository;

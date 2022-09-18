@@ -27,20 +27,20 @@ public class LogService {
     private final SnobRepository snobRepository;
 
     // 사용자 이메일로 작성된 로그 검색
-    public ResponseEntity<CustomResponse> readLog(String userEmail) {
+    public ResponseEntity<CustomResponse> read(String userEmail) {
         List<Log> ls = logRepository.findBySnob_UserEmail(userEmail);
         return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, ls),
                 HttpStatus.valueOf(200));
     }
 
-    public ResponseEntity<CustomResponse> readLog(Long logIdx) {
+    public ResponseEntity<CustomResponse> read(Long logIdx) {
         return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS,
                 logRepository.findById(logIdx).orElseThrow(() -> new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND))),
                 HttpStatus.valueOf(200));
     }
 
     @Transactional
-    public ResponseEntity<CustomResponse> deleteLog(Long logIdx, String userEmail) {
+    public ResponseEntity<CustomResponse> delete(Long logIdx, String userEmail) {
         Log log = logRepository.findById(logIdx).orElseThrow(() -> new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND));
         if(!log.getSnob().getUserEmail().equals(userEmail)) {
             throw new DifferentSnobException("different snob", ResponseCode.DIFFERNT_SNOB);
@@ -52,7 +52,7 @@ public class LogService {
     }
 
     @Transactional
-    public ResponseEntity<CustomResponse> saveOrUpdate(LogDto logDto, String userEmail) {
+    public ResponseEntity<CustomResponse> save(LogDto logDto, String userEmail) {
         // 새롭게 생성
         if (logDto.getLogIdx() == null) {
             Book book = bookRepository.findById(logDto.getBookId())

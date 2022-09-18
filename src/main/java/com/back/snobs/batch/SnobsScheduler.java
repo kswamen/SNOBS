@@ -6,7 +6,7 @@ import com.back.snobs.domain.chatroom.chatmessage.ChatMessageRdb;
 import com.back.snobs.domain.log.Log;
 import com.back.snobs.domain.reaction.Reaction;
 import com.back.snobs.domain.snob.Snob;
-import com.back.snobs.service.ChatMessageService;
+import com.back.snobs.service.chatmessage.ChatMessageService;
 import com.back.snobs.service.ChatRoomService;
 import com.back.snobs.service.DailyLogService;
 import com.back.snobs.util.RedisUtils;

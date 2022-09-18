@@ -29,6 +29,7 @@ public class MailService {
     public ResponseEntity<CustomResponse> checkVerificationCode(String userEmail, String verificationCode) {
         MailVerification mailVerification = mailVerificationRepository.findBySnob_UserEmail(userEmail).orElseThrow();
         LocalDateTime now = LocalDateTime.now();
+        System.out.println(mailVerification.getModifiedDate());
         if(ChronoUnit.SECONDS.between(mailVerification.getModifiedDate(), now) <= 300) {
             if (mailVerification.getVerificationCode().equals(verificationCode)) {
                 mailVerificationRepository.delete(mailVerification);
@@ -37,7 +38,7 @@ public class MailService {
             }
         }
         return new ResponseEntity<>(new CustomResponse(ResponseCode.EMAIL_VERIFICATION_FAILED, "Email Verification Failed"),
-                HttpStatus.valueOf(200));
+                HttpStatus.valueOf(400));
     }
 
     public ResponseEntity<CustomResponse> mailSend(String address) {

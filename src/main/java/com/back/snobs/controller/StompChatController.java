@@ -1,7 +1,7 @@
 package com.back.snobs.controller;
 
 import com.back.snobs.domain.chatroom.chatmessage.ChatMessageDto;
-import com.back.snobs.service.ChatMessageService;
+import com.back.snobs.service.chatmessage.ChatMessageService;
 import com.back.snobs.service.redispubsub.RedisPublisher;
 import com.back.snobs.service.redispubsub.RedisSubscriber;
 import com.back.snobs.util.RedisUtils;

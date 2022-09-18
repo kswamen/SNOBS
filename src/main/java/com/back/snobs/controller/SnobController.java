@@ -29,7 +29,7 @@ public class SnobController {
     @PatchMapping(value = "")
     @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
     public ResponseEntity<CustomResponse> snobUpdate(@CurrentUser UserPrincipal userPrincipal, @RequestBody SnobDto snobDto) {
-        return snobService.update(snobDto, userPrincipal.getEmail());
+        return snobService.save(snobDto, userPrincipal.getEmail());
     }
 
     @GetMapping(value = "/genre")

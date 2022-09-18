@@ -63,7 +63,7 @@ public class SnobService {
     }
 
     @Transactional
-    public ResponseEntity<CustomResponse> update(SnobDto snobDto, String userEmail) {
+    public ResponseEntity<CustomResponse> save(SnobDto snobDto, String userEmail) {
         Optional<Snob> temp = snobRepository.findById(userEmail);
         // 이미 존재하는 이메일인 경우
         if (temp.isPresent()) {
@@ -219,17 +219,7 @@ public class SnobService {
     // 읽은 책, 읽고 싶은 책 설정
     @Transactional
     public ResponseEntity<CustomResponse> setSnobBook(String userEmail, String bookId, Boolean readed) {
-        Optional<SnobBook> temp = snobBookRepository
-                .findById(new SnobBookId(userEmail, bookId));
-        SnobBook snobBook;
-
-        if (temp.isPresent()) {
-            snobBook = temp.get();
-            snobBook.updateReaded(readed);
-            return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, snobBookRepository.save(snobBook)),
-                    HttpStatus.valueOf(200));
-        } else {
-            return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS,
+        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS,
                         snobBookRepository.save(
                                 SnobBook.builder()
                                         .snob(snobRepository.findById(userEmail).orElseThrow(
@@ -239,9 +229,8 @@ public class SnobService {
                                         .readed(readed)
                                         .build()
                         )
-                    ),
-                    HttpStatus.valueOf(200));
-        }
+                ),
+                HttpStatus.valueOf(200));
     }
 
     public ResponseEntity<CustomResponse> getSnobDailyLog(String userEmail) {
