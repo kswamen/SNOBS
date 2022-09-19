@@ -10,6 +10,7 @@ import com.back.snobs.error.ResponseCode;
 import com.back.snobs.error.exception.ChatRoomDuplicationException;
 import com.back.snobs.error.exception.NoDataException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -29,20 +30,33 @@ public class ChatRoomService {
     private final ReactionRepository reactionRepository;
     private final JdbcTemplate jdbcTemplate;
     private final int batchSize = 500;
+    private final int CHAT_ROOM_MAX_SIZE = 500;
 
     public ResponseEntity<CustomResponse> getChatRoom(String userEmail) {
-        List<ChatRoom> cr1 = chatRoomRepository.findAllChatRoomByMeWithFetchJoin(userEmail);
-        List<ChatRoom> cr2 = chatRoomRepository.findAllChatRoomByYouWithFetchJoin(userEmail);
+        PageRequest pr = PageRequest.of(0, 500);
+        List<ChatRoom> cr1 = chatRoomRepository.findAllChatRoomByMeWithFetchJoin(userEmail, pr);
+        List<ChatRoom> cr2 = chatRoomRepository.findAllChatRoomByYouWithFetchJoin(userEmail, pr);
         List<ChatRoom> result = new ArrayList<>();
         result.addAll(cr1);
         result.addAll(cr2);
+        result.sort((o1, o2) -> (int) (o1.getChatRoomIdx() - o2.getChatRoomIdx()));
 
-//        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, result.subList(0, 10)), HttpStatus.valueOf(200));
+        // 페이징이 적용되기 전이라, 테스트 용으로 일단 결과 리스트를 잘라서 보냄
+        if (result.size() >= CHAT_ROOM_MAX_SIZE) {
+            return new ResponseEntity<>(new CustomResponse(
+                    ResponseCode.SUCCESS, result.subList(0, CHAT_ROOM_MAX_SIZE)), HttpStatus.valueOf(200)
+            );
+        }
         return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, result), HttpStatus.valueOf(200));
     }
 
     public List<ChatRoom> findAll() {
         return chatRoomRepository.findAll();
+    }
+
+    public List<ChatRoom> findTop300() {
+        PageRequest pr = PageRequest.of(0, 300);
+        return chatRoomRepository.findAll(pr).getContent();
     }
 
     public void updateAllByJDBC(List<ChatRoom> chatRoomList) {
@@ -51,16 +65,16 @@ public class ChatRoomService {
         for(int i = 0; i < chatRoomList.size(); i++) {
             subItems.add(chatRoomList.get(i));
             if((i + 1) % batchSize == 0) {
-                batchCount = batchUpdate(batchSize, batchCount, subItems);
+                batchCount = batchUpdate(batchCount, subItems);
             }
         }
         if(!subItems.isEmpty()) {
-            batchCount = batchUpdate(batchSize, batchCount, subItems);
+            batchCount = batchUpdate(batchCount, subItems);
         }
     }
 
-    private int batchUpdate(int batchSize, int batchCount, List<ChatRoom> atMsgs) {
-        String query = "UPDATE CHAT_ROOM SET `last_message_saved` = ? where `chat_room_idx` = ?";
+    private int batchUpdate(int batchCount, List<ChatRoom> atMsgs) {
+        String query = "UPDATE chat_room SET `last_message_saved` = ? where `chat_room_idx` = ?";
         jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {

@@ -33,7 +33,7 @@ class SnobBookModuleTest {
 //        }
 //    }
 
-    @Test
+//    @Test
     void snobSave() {
         Snob s = Snob.builder()
                 .userEmail("asdf@naver.com")
@@ -48,7 +48,7 @@ class SnobBookModuleTest {
         snobRepository.save(s);
     }
 
-    @Test
+//    @Test
     void t() {
         System.out.println(snobRepository.existsByCellPhoneCode("f1fe9503-e84b-4442-bbcf-081b80e1333a"));
     }

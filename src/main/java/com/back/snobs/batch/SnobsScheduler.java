@@ -41,7 +41,9 @@ public class SnobsScheduler {
 
     @Scheduled(fixedDelay = 3600000)
     public void RedisUpdate() {
-        List<ChatRoom> chatRoomList = chatRoomService.findAll();
+        // 전체 채팅방을 불러오는 건 코스트가 너무 크다.
+//        List<ChatRoom> chatRoomList = chatRoomService.findAll();
+        List<ChatRoom> chatRoomList = chatRoomService.findTop300();
         // 실제 채팅방 인덱스를 리스트 인덱스에 매핑
         Map<Long, Integer> chatRoomIdxMap = new HashMap<>();
         for(int i = 0; i < chatRoomList.size(); i++) {
@@ -109,24 +111,24 @@ public class SnobsScheduler {
         dailyLogService.deleteAllDailyLogInBatch();
         LocalDateTime now = LocalDateTime.now();
 
-        // 3일이 지난 리액션 삭제
-        List<Reaction> reactionList = dailyLogService.findAllReactions();
-        for(Reaction reaction: reactionList) {
-            LocalDateTime dt = reaction.getCreateDate();
-            if(ChronoUnit.DAYS.between(dt, now) > 3) {
-                dailyLogService.deleteReaction(reaction);
-            }
-        }
-
-        // 3일이 지난 채팅방 삭제
-        List<ChatRoom> chatRoomList = dailyLogService.findAllChatRooms();
-        for(ChatRoom chatRoom: chatRoomList) {
-            LocalDateTime dt = chatRoom.getCreateDate();
-            if(ChronoUnit.DAYS.between(dt, now) > 3) {
-                dailyLogService.deleteChatRoom(chatRoom);
-                zSetOperations.remove(RedisUtils.getChatRoomKey(chatRoom.getChatRoomIdx()));
-            }
-        }
+//        // 3일이 지난 리액션 삭제
+//        List<Reaction> reactionList = dailyLogService.findAllReactions();
+//        for(Reaction reaction: reactionList) {
+//            LocalDateTime dt = reaction.getCreateDate();
+//            if(ChronoUnit.DAYS.between(dt, now) > 3) {
+//                dailyLogService.deleteReaction(reaction);
+//            }
+//        }
+//
+//        // 3일이 지난 채팅방 삭제
+//        List<ChatRoom> chatRoomList = dailyLogService.findAllChatRooms();
+//        for(ChatRoom chatRoom: chatRoomList) {
+//            LocalDateTime dt = chatRoom.getCreateDate();
+//            if(ChronoUnit.DAYS.between(dt, now) > 3) {
+//                dailyLogService.deleteChatRoom(chatRoom);
+//                zSetOperations.remove(RedisUtils.getChatRoomKey(chatRoom.getChatRoomIdx()));
+//            }
+//        }
 
         List<Snob> snobList = dailyLogService.findAllSnobs();
         List<Log> logList = dailyLogService.findAllLogs();

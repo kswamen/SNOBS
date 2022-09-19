@@ -19,13 +19,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ChatMessageServiceRdb implements ChatMessageServiceInterface{
+public class ChatMessageServiceRdb implements ChatMessageServiceInterface {
     private final ChatMessageRepositoryRdb chatMessageRepositoryRdb;
     private final ChatRoomRepository chatRoomRepository;
-    private final SnobRepository snobRepository;
 
     public ChatMessageDto saveMessage(ChatMessageDto chatMessageDto) {
-        ChatMessageRdb chatMessageRdb = chatMessageRepositoryRdb.save(ChatMessageRdb.builder()
+        chatMessageRepositoryRdb.save(ChatMessageRdb.builder()
                 .chatRoomIdx(chatMessageDto.getChatRoomIdx())
                 .userIdx(chatMessageDto.getUserIdx())
                 .message(chatMessageDto.getMessage()).build());
@@ -37,7 +36,7 @@ public class ChatMessageServiceRdb implements ChatMessageServiceInterface{
     }
 
     public ResponseEntity<CustomResponse> getMessage(Long chatRoomIdx) {
-        ChatRoom chatRoom = chatRoomRepository.findById(chatRoomIdx).orElseThrow();
+        chatRoomRepository.findById(chatRoomIdx).orElseThrow();
         List<ChatMessageRdb> chatMessageRdbList = chatMessageRepositoryRdb.findTop1000ByChatRoomIdxOrderByCreateDateDesc(chatRoomIdx);
         Collections.reverse(chatMessageRdbList);
         List<ChatMessageDto> tempList = new ArrayList<>();

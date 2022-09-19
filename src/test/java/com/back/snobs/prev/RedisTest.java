@@ -62,12 +62,12 @@ class RedisTest {
         }
     }
 
-    @Test
+//    @Test
     void someTest2() {
         chatMessageServiceRdb.getMessage(37158L);
     }
 
-    @Test
+//    @Test
     void insertMessages() throws InterruptedException {
         List<ChatRoom> chatRoomList = chatRoomRepository.findAll();
 //        Snob a = snobRepository.findBySnobIdx("016f0fa0-6d8f-4bb2-a03c-aa76ab551b5e").orElse(null);
@@ -104,7 +104,7 @@ class RedisTest {
         }
     }
 
-    @Test
+//    @Test
     void insertMessageUsingRedis() {
         List<ChatRoom> chatRoomList = chatRoomRepository.findAll();
         List<Long> arr = Arrays.asList(32758L, 38878L);
@@ -121,7 +121,7 @@ class RedisTest {
         }
     }
 
-    @Test
+//    @Test
     void insertMessageUsingRdb() {
         List<ChatRoom> chatRoomList = chatRoomRepository.findAll();
         List<Long> arr = Arrays.asList(32758L, 38878L);

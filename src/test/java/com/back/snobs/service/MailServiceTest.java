@@ -7,7 +7,6 @@ import com.back.snobs.domain.snob.Role;
 import com.back.snobs.domain.snob.Snob;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.util.CreateDummyData;
-import lombok.Getter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,8 +19,9 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.any;
+import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 class MailServiceTest {

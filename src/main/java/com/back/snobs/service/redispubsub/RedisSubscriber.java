@@ -17,15 +17,13 @@ import java.io.ObjectInputStream;
 @Service
 @Slf4j
 public class RedisSubscriber implements MessageListener {
-    private final ObjectMapper objectMapper;
-    private final RedisTemplate redisTemplate;
     private final SimpMessagingTemplate template;
 
     // 메시지 발행 시 대기하고 있던 onMessage 실행
     @Override
     public void onMessage(Message message, byte[] pattern) {
         try {
-            Object obj = null;
+            Object obj;
             ByteArrayInputStream bis = new ByteArrayInputStream(message.getBody());
             ObjectInputStream ois = new ObjectInputStream(bis);
             obj = ois.readObject();

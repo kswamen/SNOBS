@@ -48,7 +48,7 @@ class SnobModuleTest {
     private ReactionRepository reactionRepository;
 
     // Snob CRUD
-    @Test
+//    @Test
     void snobInsert() {
         Snob tempUser = Snob.builder()
                 .userEmail("SomethingEmail@naver.com")
@@ -62,7 +62,7 @@ class SnobModuleTest {
         System.out.println(snobRepository.save(tempUser));
     }
 
-    @Test
+//    @Test
     void deleteReaction() {
         Reaction r = reactionRepository.findById(2L).orElseThrow();
         LocalDateTime dt = r.getCreateDate();
@@ -72,7 +72,7 @@ class SnobModuleTest {
         System.out.println(ChronoUnit.DAYS.between(dt, now));
     }
 
-    @Test
+//    @Test
     void snobRead() {
         Optional<Snob> tempUser = snobRepository.findById("SomethingEmail@naver.com");
         if (tempUser.isPresent()) {
@@ -82,19 +82,19 @@ class SnobModuleTest {
         }
     }
 
-    @Test
+//    @Test
     void snobDelete() {
         Optional<Snob> tempUser = snobRepository.findById("SomethingEmail@naver.com");
         tempUser.ifPresent(snob -> snobRepository.deleteById(snob.getUserEmail()));
     }
 
-    @Test
+//    @Test
     void t() {
         System.out.println(snobRepository.existsById("a@a.com"));
         System.out.println(snobRepository.existsByCellPhoneCode("f1fe9503-e84b-4442-bbcf-081b80e1333a"));
     }
 
-    @Test
+//    @Test
     void t2() {
         ProfileImage p = ProfileImage.builder()
                 .snob(snobRepository.findById("a@a.com").get())
@@ -105,7 +105,7 @@ class SnobModuleTest {
         profileImageRepository.save(p);
     }
 
-    @Test
+//    @Test
     void profileImageSearchTest() {
         Snob snob = snobRepository.findById("helloThere@naver.com").orElseThrow();
 
@@ -116,7 +116,7 @@ class SnobModuleTest {
         }
     }
 
-    @Test
+//    @Test
     void createDailyLog() {
         Snob snob = snobRepository.findById("a@a.com").orElseThrow();
         Log log = logRepository.findById(2L).orElseThrow();
@@ -129,7 +129,7 @@ class SnobModuleTest {
         dailyLogRepository.save(dailyLog);
     }
 
-    @Test
+//    @Test
     void insertReaction() {
         Snob receiverSnob = snobRepository.findById("helloThere@naver.com").orElseThrow();
         Snob senderSnob = snobRepository.findById("a@a.com").orElseThrow();
@@ -143,7 +143,7 @@ class SnobModuleTest {
                 .build());
     }
 
-    @Test
+//    @Test
     void findReaction() {
         Optional<Reaction> reaction =
                 reactionRepository.findBysenderEmailAndlogIdx("helloThere@naver.com",
@@ -151,12 +151,12 @@ class SnobModuleTest {
         reaction.ifPresent(value -> System.out.println(value.getMessage()));
     }
 
-    @Test
+//    @Test
     void deleteAllinBatchDailyLog() {
         dailyLogRepository.deleteAllInBatch();
     }
 
-    @Test
+//    @Test
     void countByDailyLog() {
         System.out.println(dailyLogRepository.countBySnob_userEmail("a@a.com"));
     }
