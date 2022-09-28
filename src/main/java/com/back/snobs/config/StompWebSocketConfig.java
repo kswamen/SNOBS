@@ -22,8 +22,11 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/api/stomp/chat")
-                .setAllowedOrigins("http://localhost:3001", "http://snobs.co.kr", "https://snobs.co.kr")
+//                .setAllowedOrigins("http://localhost:3001", "http://snobs.co.kr", "https://snobs.co.kr")
+                .setAllowedOriginPatterns("*")
                 .withSockJS();
+
+//        registry.addEndpoint("/api/stomp/chat").setAllowedOriginPatterns("*");
     }
 
     // 어플리케이션 내부에서 사용할 경로 지정

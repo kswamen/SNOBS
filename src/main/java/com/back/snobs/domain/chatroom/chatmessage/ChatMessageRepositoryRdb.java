@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ChatMessageRepositoryRdb extends JpaRepository<ChatMessageRdb, Long> {
-    List<ChatMessageRdb> findTop1000ByChatRoomIdxOrderByCreateDateDesc(Long chatRoomIdx);
+    List<ChatMessageRdb> findTop1000ByChatRoomIdxOrderByChatMessageIdxDesc(Long chatRoomIdx);
 }

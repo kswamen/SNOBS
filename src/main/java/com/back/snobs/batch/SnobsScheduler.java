@@ -39,7 +39,10 @@ public class SnobsScheduler {
         zSetOperations = redisTemplate.opsForZSet();
     }
 
-    @Scheduled(fixedDelay = 3600000)
+
+    // Redis에 저장된 데이터를 MySQL에 영속화시키지 않도록 바뀌면서
+    // 더 이상 사용되지 않는 메소드임
+//    @Scheduled(fixedDelay = 3600000)
     public void RedisUpdate() {
         // 전체 채팅방을 불러오는 건 코스트가 너무 크다.
 //        List<ChatRoom> chatRoomList = chatRoomService.findAll();

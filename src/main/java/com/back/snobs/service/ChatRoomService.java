@@ -30,24 +30,31 @@ public class ChatRoomService {
     private final ReactionRepository reactionRepository;
     private final JdbcTemplate jdbcTemplate;
     private final int batchSize = 500;
-    private final int CHAT_ROOM_MAX_SIZE = 500;
+    private final int CHAT_ROOM_MAX_SIZE = 10;
+
+//    public ResponseEntity<CustomResponse> getChatRoom(String userEmail) {
+//        PageRequest pr = PageRequest.of(0, 500);
+//        List<ChatRoom> cr1 = chatRoomRepository.findAllChatRoomByMeWithFetchJoin(userEmail, pr);
+//        List<ChatRoom> cr2 = chatRoomRepository.findAllChatRoomByYouWithFetchJoin(userEmail, pr);
+//        List<ChatRoom> result = new ArrayList<>();
+//        result.addAll(cr1);
+//        result.addAll(cr2);
+//        result.sort((o1, o2) -> (int) (o1.getChatRoomIdx() - o2.getChatRoomIdx()));
+//
+//        // 페이징이 적용되기 전이라, 테스트 용으로 일단 결과 리스트를 잘라서 보냄
+//        if (result.size() >= CHAT_ROOM_MAX_SIZE) {
+//            return new ResponseEntity<>(new CustomResponse(
+//                    ResponseCode.SUCCESS, result.subList(0, CHAT_ROOM_MAX_SIZE)), HttpStatus.valueOf(200)
+//            );
+//        }
+//        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, result), HttpStatus.valueOf(200));
+//    }
 
     public ResponseEntity<CustomResponse> getChatRoom(String userEmail) {
         PageRequest pr = PageRequest.of(0, 500);
-        List<ChatRoom> cr1 = chatRoomRepository.findAllChatRoomByMeWithFetchJoin(userEmail, pr);
-        List<ChatRoom> cr2 = chatRoomRepository.findAllChatRoomByYouWithFetchJoin(userEmail, pr);
-        List<ChatRoom> result = new ArrayList<>();
-        result.addAll(cr1);
-        result.addAll(cr2);
-        result.sort((o1, o2) -> (int) (o1.getChatRoomIdx() - o2.getChatRoomIdx()));
+        List<ChatRoom> cr = chatRoomRepository.findAllChatRoomByUserEmail(userEmail, pr);
 
-        // 페이징이 적용되기 전이라, 테스트 용으로 일단 결과 리스트를 잘라서 보냄
-        if (result.size() >= CHAT_ROOM_MAX_SIZE) {
-            return new ResponseEntity<>(new CustomResponse(
-                    ResponseCode.SUCCESS, result.subList(0, CHAT_ROOM_MAX_SIZE)), HttpStatus.valueOf(200)
-            );
-        }
-        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, result), HttpStatus.valueOf(200));
+        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, cr), HttpStatus.valueOf(200));
     }
 
     public List<ChatRoom> findAll() {

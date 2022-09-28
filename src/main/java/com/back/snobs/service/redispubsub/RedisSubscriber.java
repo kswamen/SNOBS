@@ -18,17 +18,13 @@ import java.io.ObjectInputStream;
 @Slf4j
 public class RedisSubscriber implements MessageListener {
     private final SimpMessagingTemplate template;
+    private final ObjectMapper objectMapper;
 
     // 메시지 발행 시 대기하고 있던 onMessage 실행
     @Override
     public void onMessage(Message message, byte[] pattern) {
         try {
-            Object obj;
-            ByteArrayInputStream bis = new ByteArrayInputStream(message.getBody());
-            ObjectInputStream ois = new ObjectInputStream(bis);
-            obj = ois.readObject();
-
-            ChatMessage chatMessage = (ChatMessage) obj;
+            ChatMessage chatMessage = objectMapper.readValue(message.toString(), ChatMessage.class);
             template.convertAndSend("/ws/sub/chat/room/" + chatMessage.getChatRoomIdx(), chatMessage);
         } catch (Exception e) {
             log.error(e.getMessage());

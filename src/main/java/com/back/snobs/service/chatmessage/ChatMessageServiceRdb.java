@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +25,7 @@ public class ChatMessageServiceRdb implements ChatMessageServiceInterface {
     private final ChatMessageRepositoryRdb chatMessageRepositoryRdb;
     private final ChatRoomRepository chatRoomRepository;
 
+//    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public ChatMessageDto saveMessage(ChatMessageDto chatMessageDto) {
         chatMessageRepositoryRdb.save(ChatMessageRdb.builder()
                 .chatRoomIdx(chatMessageDto.getChatRoomIdx())
@@ -37,7 +40,7 @@ public class ChatMessageServiceRdb implements ChatMessageServiceInterface {
 
     public ResponseEntity<CustomResponse> getMessage(Long chatRoomIdx) {
         chatRoomRepository.findById(chatRoomIdx).orElseThrow();
-        List<ChatMessageRdb> chatMessageRdbList = chatMessageRepositoryRdb.findTop1000ByChatRoomIdxOrderByCreateDateDesc(chatRoomIdx);
+        List<ChatMessageRdb> chatMessageRdbList = chatMessageRepositoryRdb.findTop1000ByChatRoomIdxOrderByChatMessageIdxDesc(chatRoomIdx);
         Collections.reverse(chatMessageRdbList);
         List<ChatMessageDto> tempList = new ArrayList<>();
         for(ChatMessageRdb chatMessageRdb: chatMessageRdbList) {

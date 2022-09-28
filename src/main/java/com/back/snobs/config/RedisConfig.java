@@ -1,5 +1,6 @@
 package com.back.snobs.config;
 
+import com.back.snobs.domain.chatroom.chatmessage.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +10,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
@@ -30,11 +32,11 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<byte[], byte[]> redisTemplate() {
-        RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-//        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(ChatMessage.class));
         return redisTemplate;
     }
 }

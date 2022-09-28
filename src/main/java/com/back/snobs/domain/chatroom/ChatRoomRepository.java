@@ -13,5 +13,7 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
     List<ChatRoom> findAllChatRoomByMeWithFetchJoin(@Param("userEmail") String userEmail, Pageable pageable);
     @Query(value = "select distinct cr from ChatRoom cr join fetch cr.receiverSnob join fetch cr.senderSnob where cr.receiverSnob.userEmail = :userEmail")
     List<ChatRoom> findAllChatRoomByYouWithFetchJoin(@Param("userEmail") String userEmail, Pageable pageable);
-
+    @Query(value = "select cr from ChatRoom cr join fetch cr.receiverSnob join fetch cr.senderSnob" +
+            " where cr.receiverSnob.userEmail = :userEmail or cr.senderSnob.userEmail = :userEmail order by cr.chatRoomIdx")
+    List<ChatRoom> findAllChatRoomByUserEmail(@Param("userEmail") String userEmail, Pageable pageable);
 }

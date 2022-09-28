@@ -10,6 +10,7 @@ import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import com.back.snobs.util.RedisUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.sql.PreparedStatement;
@@ -24,81 +26,39 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ChatMessageService implements ChatMessageServiceInterface{
-    private final RedisTemplate redisTemplate;
-    private final ChatRoomRepository chatRoomRepository;
-    private final ChatMessageRepositoryRdb chatMessageRepositoryRdb;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final JdbcTemplate jdbcTemplate;
     private final int batchSize = 500;
-    private ZSetOperations<String, ChatMessage> zSetOperations;
+    private ListOperations<String, Object> listOperations;
 
     @PostConstruct
     private void init() {
-        zSetOperations = redisTemplate.opsForZSet();
+        listOperations = redisTemplate.opsForList();
     }
 
+    @Transactional
     public ChatMessageDto saveMessage(ChatMessageDto chatMessageDto) {
         long now = System.currentTimeMillis();
         chatMessageDto.setCreateDate(now);
         ChatMessage chatMessage = chatMessageDto.toEntity();
-        zSetOperations.add(RedisUtils.getChatRoomKey(chatMessage.getChatRoomIdx()), chatMessage, now);
+        listOperations.rightPush(RedisUtils.getChatRoomKey(chatMessage.getChatRoomIdx()), chatMessage);
+
         return chatMessageDto;
     }
 
-//    public ResponseEntity<CustomResponse> getMessage(Long chatRoomIdx) {
-//        Set<ChatMessage> messages;
-////        List<ChatMessageRdb> chatMessageRdbList = chatMessageRepositoryRdb.findTop1000ByChatRoomIdxOrderByCreateDateDesc(chatRoomIdx);
-////        Collections.reverse(chatMessageRdbList);
-////        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, chatMessageRdbList), HttpStatus.valueOf(200));
-//
-//        // Redis에 키가 존재하지 않으면 RDB에서 읽어와서 저장
-//        if (!redisTemplate.hasKey(RedisUtils.getChatRoomKey(chatRoomIdx))) {
-//            ChatRoom chatRoom = chatRoomRepository.findById(chatRoomIdx).orElseThrow();
-//            List<ChatMessageRdb> chatMessageRdbList = chatMessageRepositoryRdb.findTop1000ByChatRoomIdxOrderByCreateDateDesc(chatRoomIdx);
-////            Collections.reverse(chatMessageRdbList);
-//            for(ChatMessageRdb chatMessageRdb: chatMessageRdbList) {
-//                ChatMessageDto chatMessageDto = new ChatMessageDto();
-//                chatMessageDto.setUserIdx(chatMessageRdb.getUserIdx());
-//                chatMessageDto.setMessage(chatMessageRdb.getMessage());
-//                chatMessageDto.setCreateDate(chatMessageRdb.getCreateDate());
-//
-//                ChatMessage chatMessage = chatMessageDto.toEntity();
-//                zSetOperations.add(RedisUtils.getChatRoomKey(chatRoomIdx), chatMessage, chatMessage.getCreateDate());
-//            }
-//        }
-//        messages = zSetOperations.range(RedisUtils.getChatRoomKey(chatRoomIdx), -1000, -1);
-//        assert messages != null;
-//        List<ChatMessage> result = new ArrayList<>(messages);
-//        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, result), HttpStatus.valueOf(200));
-//    }
-
     public ResponseEntity<CustomResponse> getMessage(Long chatRoomIdx) {
-
-//        List<ChatMessageRdb> chatMessageRdbList = chatMessageRepositoryRdb.findTop1000ByChatRoomIdxOrderByCreateDateDesc(chatRoomIdx);
-//        Collections.reverse(chatMessageRdbList);
-//        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, chatMessageRdbList), HttpStatus.valueOf(200));
-
-        // Redis에 키가 존재하지 않으면 RDB에서 읽어와서 저장
-        if (Boolean.FALSE.equals(redisTemplate.hasKey(RedisUtils.getChatRoomKey(chatRoomIdx)))) {
-            List<ChatMessageRdb> chatMessageRdbList = chatMessageRepositoryRdb.findTop1000ByChatRoomIdxOrderByCreateDateDesc(chatRoomIdx);
-//            Collections.reverse(chatMessageRdbList);
-            for(ChatMessageRdb chatMessageRdb: chatMessageRdbList) {
-                ChatMessageDto chatMessageDto = new ChatMessageDto();
-                chatMessageDto.setUserIdx(chatMessageRdb.getUserIdx());
-                chatMessageDto.setMessage(chatMessageRdb.getMessage());
-                chatMessageDto.setCreateDate(chatMessageRdb.getCreateDate());
-
-                ChatMessage chatMessage = chatMessageDto.toEntity();
-                zSetOperations.add(RedisUtils.getChatRoomKey(chatRoomIdx), chatMessage, chatMessage.getCreateDate());
-            }
-        }
-        Set<ChatMessage> messages = zSetOperations.range(RedisUtils.getChatRoomKey(chatRoomIdx), -1000, -1);
+        List<Object> messages = listOperations.range(RedisUtils.getChatRoomKey(chatRoomIdx), -1000, -1);
         assert messages != null;
-//        List<ChatMessage> result = new ArrayList<>(messages);
-        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, List.of(messages)), HttpStatus.valueOf(200));
+//        List<ChatMessage> result = messages.stream()
+//                .map(x -> (ChatMessage) x)
+//                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, messages), HttpStatus.valueOf(200));
     }
 
     public void saveAllByJDBC(List<ChatMessageRdb> chatMessageRdbList) {

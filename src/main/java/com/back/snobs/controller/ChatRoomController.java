@@ -5,6 +5,7 @@ import com.back.snobs.security.UserPrincipal;
 import com.back.snobs.security.oauth2.CurrentUser;
 import com.back.snobs.service.chatmessage.ChatMessageService;
 import com.back.snobs.service.ChatRoomService;
+import com.back.snobs.service.chatmessage.ChatMessageServiceRdb;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
