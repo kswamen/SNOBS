@@ -73,8 +73,8 @@ public class CommonController {
     }
 
     @GetMapping("/profileImage/byUID")
-    @PreAuthorize("hasRole('GRANTED_USER')")
-    public ResponseEntity<Resource> byReactionIdx(@CurrentUser UserPrincipal userPrincipal, @RequestParam String UID, @RequestParam(required = false) ProfileImageType profileImageType) throws IOException {
+//    @PreAuthorize("hasRole('GRANTED_USER')")
+    public ResponseEntity<Resource> byReactionIdx(@RequestParam String UID, @RequestParam(required = false) ProfileImageType profileImageType) throws IOException {
         if(profileImageType == null) profileImageType = ProfileImageType.FIRST;
         Snob snob = snobRepository.findBySnobIdx(UID).orElseThrow(() -> new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND));
         String profileImagePath = commonService.getProfileImagePath(snob.getUserEmail(), profileImageType);

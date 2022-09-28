@@ -2,8 +2,10 @@ package com.back.snobs.security;
 
 import com.back.snobs.config.AuthProperties;
 import com.back.snobs.service.RefreshTokenService;
+
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import java.security.Key;
 import java.util.Date;
 
 @Service
+@Slf4j
 public class TokenProvider {
     private final AuthProperties authProperties;
     private final Key key;
@@ -72,17 +75,22 @@ public class TokenProvider {
     }
 
     public String getUserEmailFromToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
 //        Claims claims = Jwts.parser()
 //                .setSigningKey(key)
 //                .parseClaimsJws(token)
 //                .getBody();
 
-        return claims.getSubject();
+            return claims.getSubject();
+        } catch (ExpiredJwtException ex) {
+            log.warn("Email Parsed From Expired Token");
+            return ex.getClaims().getSubject();
+        }
     }
 
     public boolean validateToken(String authToken) {
@@ -98,6 +106,7 @@ public class TokenProvider {
             System.out.println("Invalid JWT token");
         } catch (ExpiredJwtException ex) {
             System.out.println("Expired JWT token");
+            throw ex;
         } catch (UnsupportedJwtException ex) {
             System.out.println("Unsupported JWT token");
         } catch (IllegalArgumentException ex) {

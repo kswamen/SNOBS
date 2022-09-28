@@ -47,14 +47,14 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 
-        String token = tokenProvider.createToken(authentication);
+        String accessToken = tokenProvider.createToken(authentication);
         String refreshToken = tokenProvider.createRefreshToken(authentication);
 
-        CookieUtils.addCookie(response, "accessToken", token, authProperties.getAuth().getTokenExpirationMsec());
+        CookieUtils.addCookie(response, "accessToken", accessToken, authProperties.getAuth().getTokenExpirationMsec());
         CookieUtils.addCookie(response, "refreshToken", refreshToken, authProperties.getAuth().getRefreshTokenExpirationMsec());
 
         return UriComponentsBuilder.fromUriString(targetUrl)
-                .queryParam("token", token)
+                .queryParam("accessToken", accessToken)
                 .queryParam("refreshToken", refreshToken)
                 .queryParam("isLoggedIn", true)
                 .build().toUriString();
