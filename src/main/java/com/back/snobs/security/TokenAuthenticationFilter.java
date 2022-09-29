@@ -2,7 +2,9 @@ package com.back.snobs.security;
 
 import com.back.snobs.config.AuthProperties;
 import com.back.snobs.error.ResponseCode;
+import com.back.snobs.error.exception.BadRequestException;
 import com.back.snobs.error.exception.BookIdDuplicateException;
+import com.back.snobs.error.exception.RefreshTokenExpiredException;
 import com.back.snobs.service.RefreshTokenService;
 import com.back.snobs.util.CookieUtils;
 import lombok.RequiredArgsConstructor;
@@ -38,17 +40,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 //                    headers: headers,
 //                    credentials: 'include' // react 쪽 cors 설정 잊지 말자.
 //            };
+            String parameter = request.getParameter("accessToken");
             Optional<Cookie> accessTokenCookie = CookieUtils.getCookie(request,"accessToken");
             Optional<Cookie> refreshTokenCookie = CookieUtils.getCookie(request,"refreshToken");
             if (accessTokenCookie.isPresent()) {
                 String accessToken = accessTokenCookie.get().getValue();
                 if (tokenProvider.validateToken(accessToken)) {
                     String email = tokenProvider.getUserEmailFromToken(accessToken);
-                    UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email, null);
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    authenticate(email, request);
                 }
                 // access token 만기된 경우
                 else {
@@ -59,14 +58,17 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                             if (refreshTokenService.isValidRefreshToken(email, refreshToken)) {
                                 String newToken = tokenProvider.createToken(email);
                                 CookieUtils.addCookie(response, "accessToken", newToken, authProperties.getAuth().getTokenExpirationMsec());
-                                UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
-                                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                                SecurityContextHolder.getContext().setAuthentication(authentication);
+                                authenticate(email, request);
                             }
-                        } else {
-                            throw new RuntimeException();
                         }
+                        // refresh token 만료(재 로그인 필요)
+                        else {
+                            throw new RefreshTokenExpiredException("Refresh Token Expired.");
+                        }
+                    }
+                    // token 존재 안함(잘못된 요청)
+                    else {
+                        throw new BadRequestException("No Token Contained in Request.");
                     }
                 }
             }
@@ -76,6 +78,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             logger.error("Could not set user authentication in security context", ex);
             throw ex;
         }
+    }
+
+    private void authenticate(String email, HttpServletRequest request) {
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
 //    private String getAccessTokenFromRequest(HttpServletRequest request) {

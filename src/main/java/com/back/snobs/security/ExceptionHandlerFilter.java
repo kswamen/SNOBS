@@ -2,6 +2,7 @@ package com.back.snobs.security;
 
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
+import com.back.snobs.error.exception.RefreshTokenExpiredException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.oauth2.sdk.ErrorResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,10 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        try{
-            filterChain.doFilter(request,response);
+        try {
+            filterChain.doFilter(request, response);
+        } catch (RefreshTokenExpiredException ex) {
+            setErrorResponse(HttpStatus.FORBIDDEN, response);
         } catch (Exception ex) {
             setErrorResponse(HttpStatus.UNAUTHORIZED, response);
         }
