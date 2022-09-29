@@ -71,6 +71,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                         throw new BadRequestException("No Token Contained in Request.");
                     }
                 }
+            } else {
+                throw new BadRequestException("No Token Contained in Request.");
             }
             filterChain.doFilter(request, response);
         }

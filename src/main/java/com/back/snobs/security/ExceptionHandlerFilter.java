@@ -2,6 +2,7 @@ package com.back.snobs.security;
 
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
+import com.back.snobs.error.exception.BadRequestException;
 import com.back.snobs.error.exception.RefreshTokenExpiredException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.oauth2.sdk.ErrorResponse;
@@ -27,16 +28,18 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (RefreshTokenExpiredException ex) {
-            setErrorResponse(HttpStatus.FORBIDDEN, response);
+            setErrorResponse(HttpStatus.FORBIDDEN, ResponseCode.TOKEN_EXPIRED, response);
+        } catch (BadRequestException ex) {
+            setErrorResponse(HttpStatus.BAD_REQUEST, ResponseCode.DATA_NOT_FOUND, response);
         } catch (Exception ex) {
-            setErrorResponse(HttpStatus.UNAUTHORIZED, response);
+            setErrorResponse(HttpStatus.UNAUTHORIZED, ResponseCode.ACCESS_DENIED, response);
         }
     }
 
-    public void setErrorResponse(HttpStatus status, HttpServletResponse response) {
+    public void setErrorResponse(HttpStatus status, ResponseCode code, HttpServletResponse response) {
         response.setStatus(status.value());
         response.setContentType("application/json");
-        CustomResponse errorResponse = new CustomResponse(ResponseCode.UNAUTHORIZED);
+        CustomResponse errorResponse = new CustomResponse(code);
         try{
             response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
         }catch (IOException e){

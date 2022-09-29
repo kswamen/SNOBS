@@ -27,7 +27,7 @@ class ChatMessagePerformanceTest {
     @Autowired
     ChatMessageRepositoryRdb chatMessageRepositoryRdb;
 
-    @Test
+//    @Test
     // 23.183 sec 소요(No Index)
     // 243 ms 소요(chat_room_idx, create_date 복합 인덱스 적용)
     // 202 ms 소요(chat_room_idx 인덱스 적용)
@@ -46,7 +46,7 @@ class ChatMessagePerformanceTest {
         System.out.println("Second Test - " + (l2 - l1));
     }
 
-    @Test
+//    @Test
     // 912 ms 소요(key 방출됨, 영속화 DB에 복합 인덱스 적용됨)
     // 806 ms 소요(key 존재함, 영속화 DB에 복합 인덱스 적용됨)
     // 841 ms 소요(key 존재함, 영속화 DB에 인덱스 적용되지 않음)
@@ -69,7 +69,7 @@ class ChatMessagePerformanceTest {
 
 
 
-    @Test
+//    @Test
     void insertDummyData() {
         List<ChatRoom> chatRoomList = chatRoomRepository.findAll();
 

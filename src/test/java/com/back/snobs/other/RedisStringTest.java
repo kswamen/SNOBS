@@ -21,7 +21,7 @@ public class RedisStringTest {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    @Test
+//    @Test
     void testStrings() {
         ChatMessage chatMessage = ChatMessage.builder()
                 .message("hello")
@@ -35,7 +35,7 @@ public class RedisStringTest {
         System.out.println(listOperations.range(RedisUtils.getChatRoomKey(chatMessage.getChatRoomIdx()), 0, -1));
     }
 
-    @Test
+//    @Test
     void insertDummyDataToRedis() {
         ChatMessage chatMessage1 = ChatMessage.builder()
                 .message("hello")
