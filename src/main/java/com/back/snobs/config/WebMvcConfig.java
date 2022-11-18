@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -16,10 +17,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private String[] allowedOrigins;
 
     @Bean
-    public MultipartResolver multipartResolver() {
+    public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
         multipartResolver.setMaxUploadSize(FILE_MAX_UPLOAD_SIZE);
         return multipartResolver;
+    }
+
+    @Bean
+    public MultipartFilter multipartFilter(){
+        MultipartFilter multipartFilter = new MultipartFilter();
+        multipartFilter.setMultipartResolverBeanName("multipartResolver");
+        return multipartFilter;
     }
 
     // 배포시 origin 잘 설정하자.

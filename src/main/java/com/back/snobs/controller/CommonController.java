@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
@@ -106,10 +107,11 @@ public class CommonController {
 //    }
 
     // file upload
-    @PostMapping("/myProfileImage")
+    @PostMapping(value = "/myProfileImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
     public ResponseEntity<CustomResponse> upload(
-            @CurrentUser UserPrincipal userPrincipal, @RequestParam("file")MultipartFile file,
+            @CurrentUser UserPrincipal userPrincipal,
+            @RequestParam("file") MultipartFile file,
             @RequestParam(required = false) ProfileImageType profileImageType) throws IOException {
         if(profileImageType == null) profileImageType = ProfileImageType.FIRST;
         String userEmail = userPrincipal.getEmail();
