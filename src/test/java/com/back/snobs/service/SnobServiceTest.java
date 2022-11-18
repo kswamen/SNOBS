@@ -40,7 +40,7 @@ class SnobServiceTest {
     @DisplayName("SnobService - 조회")
     void read() {
         // given
-        given(snobRepository.findById(any())).willReturn(
+        given(snobRepository.findByUserEmail(any())).willReturn(
                 Optional.of(CreateDummyData.getOneSnob(LoginType.local, Role.GRANTED_USER))
         );
 
@@ -57,7 +57,7 @@ class SnobServiceTest {
         // given
         final SnobDto snobDto = new SnobDto();
         snobDto.setBirthDate("1995-10-23");
-        given(snobRepository.findById(any())).willReturn(
+        given(snobRepository.findByUserEmail(any())).willReturn(
                 Optional.of(CreateDummyData.getOneSnob(LoginType.local, Role.GRANTED_USER))
         );
 
@@ -88,19 +88,19 @@ class SnobServiceTest {
     @DisplayName("SnobService - 읽고 싶은 책 등록")
     void setSnobBook() {
         // given
-        final String bookId = UUID.randomUUID().toString();
+        final Long bookIdx = 1L;
         final boolean readed = true;
         given(snobBookRepository.save(any())).willReturn(
                 CreateDummyData.getOneSnobBook()
         );
-        given(snobRepository.findById(any())).willReturn(
+        given(snobRepository.findByUserEmail(any())).willReturn(
                 Optional.of(CreateDummyData.getOneSnob(LoginType.local, Role.GRANTED_USER))
         );
         given(bookRepository.findById(any())).willReturn(Optional.of(CreateDummyData.getOneBook()));
 
 
         // when
-        ResponseEntity<CustomResponse> entity = snobService.setSnobBook(userEmail, bookId, readed);
+        ResponseEntity<CustomResponse> entity = snobService.setSnobBook(userEmail, bookIdx, readed);
 
         // then
         assertEquals(entity.getStatusCode(), HttpStatus.OK);

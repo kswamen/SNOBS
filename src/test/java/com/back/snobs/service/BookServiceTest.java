@@ -31,11 +31,11 @@ class BookServiceTest {
     @DisplayName("BookService - 조회")
     void read() {
         // given
-        final String bookId = UUID.randomUUID().toString();
+        final Long bookIdx = 1L;
         given(bookRepository.findById(any())).willReturn(Optional.of(CreateDummyData.getOneBook()));
 
         // when
-        ResponseEntity<CustomResponse> entity = bookService.read(bookId);
+        ResponseEntity<CustomResponse> entity = bookService.read(bookIdx);
 
         // then
         assertEquals(entity.getStatusCode(), HttpStatus.OK);

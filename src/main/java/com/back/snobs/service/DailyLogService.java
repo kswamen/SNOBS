@@ -30,7 +30,7 @@ public class DailyLogService {
     @Transactional
     public boolean createDailyLog(Snob snob, Log log) {
         Optional<DailyLog> dailyLog = dailyLogRepository.findById(new DailyLogId(
-                snob.getUserEmail(), log.getLogIdx()
+                snob.getSnobIdx(), log.getLogIdx()
         ));
         if (dailyLog.isPresent()) return false;
         else {

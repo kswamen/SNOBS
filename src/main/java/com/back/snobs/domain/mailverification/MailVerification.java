@@ -17,7 +17,7 @@ public class MailVerification extends BaseTimeEntity {
     private Long reactionIdx;
 
     @ManyToOne
-    @JoinColumn(name = "userEmail", nullable = false)
+    @JoinColumn(name = "snobIdx", nullable = false)
     private Snob snob;
 
     @Column(nullable = false)

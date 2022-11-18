@@ -20,13 +20,13 @@ public class SnobBook extends BaseTimeEntity {
     @Id
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
-    @JoinColumn(name = "bookId")
+    @JoinColumn(name = "bookIdx")
     private Book book;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
-    @JoinColumn(name = "userEmail")
+    @JoinColumn(name = "snobIdx")
     private Snob snob;
 
     @Column(columnDefinition = "boolean default false")

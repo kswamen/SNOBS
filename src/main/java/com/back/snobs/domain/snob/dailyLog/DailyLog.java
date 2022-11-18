@@ -19,7 +19,7 @@ public class DailyLog {
     @Id
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnore
-    @JoinColumn(name = "userEmail")
+    @JoinColumn(name = "snobIdx")
     private Snob snob;
 
     @Id

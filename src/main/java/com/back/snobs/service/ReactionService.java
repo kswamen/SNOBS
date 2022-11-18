@@ -41,7 +41,7 @@ public class ReactionService {
         if (reaction.isPresent()) {
             throw new ReactionDuplicateException("Reaction Already Exists", ResponseCode.REACTION_DUPLICATION);
         } else {
-            Snob senderSnob = snobRepository.findById(userEmail).orElseThrow(() -> new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND));
+            Snob senderSnob = snobRepository.findByUserEmail(userEmail).orElseThrow(() -> new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND));
             Log log = logRepository.findById(reactionDto.getLogIdx()).orElseThrow(() -> new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND));
             Snob receiverSnob = log.getSnob();
 

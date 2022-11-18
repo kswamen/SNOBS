@@ -37,7 +37,6 @@ public class CreateDummyData {
         return Snob.builder()
                 .userEmail("mytestemail@naver.com")
                 .cellPhoneCode(UUID.randomUUID().toString())
-                .snobIdx(UUID.randomUUID().toString())
                 .password("")
                 .loginType(loginType)
                 .role(role)

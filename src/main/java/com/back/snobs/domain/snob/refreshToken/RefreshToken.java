@@ -17,7 +17,7 @@ public class RefreshToken extends BaseTimeEntity {
     private Long tokenIdx;
 
     @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "userEmail")
+    @JoinColumn(name = "snobIdx")
     private Snob snob;
 
     @Column

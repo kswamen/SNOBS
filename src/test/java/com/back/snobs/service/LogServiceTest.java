@@ -85,7 +85,7 @@ class LogServiceTest {
         given(logRepository.findById(any())).willReturn(Optional.of(
                 CreateDummyData.getOneLog(snob, book)
         ));
-        given(snobRepository.findById(any())).willReturn(Optional.of(
+        given(snobRepository.findByUserEmail(any())).willReturn(Optional.of(
                 CreateDummyData.getOneSnob(LoginType.local, Role.GRANTED_USER)
         ));
         given(bookRepository.findById(any())).willReturn(Optional.of(
@@ -136,7 +136,6 @@ class LogServiceTest {
         Snob snob1 = Snob.builder()
                 .userEmail("somediffemail@naver.com")
                 .cellPhoneCode(UUID.randomUUID().toString())
-                .snobIdx(UUID.randomUUID().toString())
                 .password("")
                 .loginType(LoginType.local)
                 .role(Role.GRANTED_USER)

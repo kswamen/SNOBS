@@ -55,7 +55,7 @@ public class SnobService {
 
     // 유저 정보 읽어오기
     public ResponseEntity<CustomResponse> read(String userEmail) {
-        Snob snob = snobRepository.findById(userEmail).orElseThrow(() -> {
+        Snob snob = snobRepository.findByUserEmail(userEmail).orElseThrow(() -> {
             throw new NoDataException("No User Found", ResponseCode.DATA_NOT_FOUND);
         });
         return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, snob),
@@ -64,7 +64,7 @@ public class SnobService {
 
     @Transactional
     public ResponseEntity<CustomResponse> save(SnobDto snobDto, String userEmail) {
-        Optional<Snob> temp = snobRepository.findById(userEmail);
+        Optional<Snob> temp = snobRepository.findByUserEmail(userEmail);
         // 이미 존재하는 이메일인 경우
         if (temp.isPresent()) {
             Snob snob = temp.get();
@@ -100,14 +100,14 @@ public class SnobService {
     public ResponseEntity<CustomResponse> setGenre(String userEmail, String genreData) throws ParseException {
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = (JSONObject)jsonParser.parse(genreData);
-        HashMap<String, Object> map = (HashMap<String, Object>) jsonObject.get("genreData");
+        HashMap<Long, Object> map = (HashMap<Long, Object>) jsonObject.get("genreData");
 
-        Snob snob = snobRepository.findById(userEmail).orElseThrow(
+        Snob snob = snobRepository.findByUserEmail(userEmail).orElseThrow(
                 () -> new NoDataException("No such User", ResponseCode.DATA_NOT_FOUND));
 
-        for(String s: map.keySet()) {
+        for(Long s: map.keySet()) {
             Optional<SnobGenre> temp = snobGenreRepository
-                    .findById(new SnobGenreId(s, userEmail));
+                    .findById(new SnobGenreId(s, snob.getSnobIdx()));
             SnobGenre snobGenre;
             Boolean b = Integer.parseInt(String.valueOf(map.get(s))) == 1;
             if (temp.isPresent()) {
@@ -146,14 +146,14 @@ public class SnobService {
     public ResponseEntity<CustomResponse> setKeyword(String userEmail, String keywordData) throws ParseException {
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = (JSONObject)jsonParser.parse(keywordData);
-        HashMap<String, Object> map = (HashMap<String, Object>) jsonObject.get("keywordData");
+        HashMap<Long, Object> map = (HashMap<Long, Object>) jsonObject.get("keywordData");
 
-        Snob snob = snobRepository.findById(userEmail).orElseThrow(
+        Snob snob = snobRepository.findByUserEmail(userEmail).orElseThrow(
                 () -> new NoDataException("No such User", ResponseCode.DATA_NOT_FOUND));
 
-        for(String s: map.keySet()) {
+        for(Long s: map.keySet()) {
             Optional<SnobKeyword> temp = snobKeywordRepository
-                    .findById(new SnobKeywordId(s, userEmail));
+                    .findById(new SnobKeywordId(s, snob.getSnobIdx()));
             SnobKeyword snobKeyword;
             Boolean b = Integer.parseInt(String.valueOf(map.get(s))) == 1;
             if (temp.isPresent()) {
@@ -218,11 +218,11 @@ public class SnobService {
 
     // 읽은 책, 읽고 싶은 책 설정
     @Transactional
-    public ResponseEntity<CustomResponse> setSnobBook(String userEmail, String bookId, Boolean readed) {
+    public ResponseEntity<CustomResponse> setSnobBook(String userEmail, Long bookId, Boolean readed) {
         return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS,
                         snobBookRepository.save(
                                 SnobBook.builder()
-                                        .snob(snobRepository.findById(userEmail).orElseThrow(
+                                        .snob(snobRepository.findByUserEmail(userEmail).orElseThrow(
                                                 () -> new NoDataException("No such Data", ResponseCode.DATA_NOT_FOUND)))
                                         .book(bookRepository.findById(bookId).orElseThrow(
                                                 () -> new NoDataException("No such Data", ResponseCode.DATA_NOT_FOUND)))

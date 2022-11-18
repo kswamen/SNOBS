@@ -38,7 +38,7 @@ public class Log extends BaseTimeEntity {
     private Book book;
 
     @ManyToOne
-    @JoinColumn(name = "writerEmail")
+    @JoinColumn(name = "snobIdx")
     private Snob snob;
 
     @Builder

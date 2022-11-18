@@ -16,19 +16,20 @@ import java.time.LocalDate;
 @DynamicInsert
 @Table(uniqueConstraints = {
         @UniqueConstraint(name = "UK_cellPhoneCode", columnNames = {"cellPhoneCode"}),
-        @UniqueConstraint(name = "UK_snobIdx", columnNames = {"snobIdx"}),
+        @UniqueConstraint(name = "UK_userEmail", columnNames = {"userEmail"}),
 })
 public class Snob extends BaseTimeEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long snobIdx;
+
+    @Column(nullable = false)
     @JsonIgnore
     private String userEmail;
 
     @Column(nullable = false)
     @JsonIgnore
     private String cellPhoneCode;
-
-    @Column(nullable = false)
-    private String snobIdx;
 
     @Column
     @JsonIgnore
@@ -63,7 +64,7 @@ public class Snob extends BaseTimeEntity {
     private String mainProfileImage;
 
     @Builder
-    public Snob(String userEmail, String cellPhoneCode, String password, LoginType loginType, Role role, String userName, LocalDate birthDate, Gender gender, String address, String selfIntroduction, String mainProfileImage, String snobIdx) {
+    public Snob(String userEmail, String cellPhoneCode, String password, LoginType loginType, Role role, String userName, LocalDate birthDate, Gender gender, String address, String selfIntroduction, String mainProfileImage) {
         this.userEmail = userEmail;
         this.cellPhoneCode = cellPhoneCode;
         this.password = password;
@@ -75,7 +76,6 @@ public class Snob extends BaseTimeEntity {
         this.address = address;
         this.selfIntroduction = selfIntroduction;
         this.mainProfileImage = mainProfileImage;
-        this.snobIdx = snobIdx;
     }
 
     public void updateMainProfileImage(String mainProfileImage) {

@@ -55,9 +55,9 @@ public class LogService {
     public ResponseEntity<CustomResponse> save(LogDto logDto, String userEmail) {
         // 새롭게 생성
         if (logDto.getLogIdx() == null) {
-            Book book = bookRepository.findById(logDto.getBookId())
+            Book book = bookRepository.findByBookId(logDto.getBookId())
                     .orElseThrow(() -> new NoDataException("No such Data", ResponseCode.DATA_NOT_FOUND));
-            Snob snob = snobRepository.findById(userEmail)
+            Snob snob = snobRepository.findByUserEmail(userEmail)
                     .orElseThrow(() -> new NoDataException("No such Data", ResponseCode.DATA_NOT_FOUND));
             logDto.setBook(book);
             logDto.setSnob(snob);

@@ -69,8 +69,8 @@ public class SnobController {
     }
 
     @PostMapping(value = "/book")
-    public ResponseEntity<CustomResponse> snobSetBook(String userEmail, String bookId, Boolean readed) {
-        return snobService.setSnobBook(userEmail, bookId, readed);
+    public ResponseEntity<CustomResponse> snobSetBook(String userEmail, Long bookIdx, Boolean readed) {
+        return snobService.setSnobBook(userEmail, bookIdx, readed);
     }
 
     @GetMapping(value = "/dailyLog")

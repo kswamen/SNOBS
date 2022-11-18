@@ -19,13 +19,13 @@ public class SnobKeyword {
     @Id
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnore
-    @JoinColumn(name = "keywordName")
+    @JoinColumn(name = "keywordIdx")
     private Keyword keyword;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnore
-    @JoinColumn(name = "userEmail")
+    @JoinColumn(name = "snobIdx")
     private Snob snob;
 
     @Column(columnDefinition = "tinyint(1) default 1")

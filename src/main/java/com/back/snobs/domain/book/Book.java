@@ -7,17 +7,22 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlID;
 import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(name = "UK_booKId", columnNames = {"bookId"}),
+})
 public class Book extends BaseTimeEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long bookIdx;
+
+    @Column(nullable = false)
     private String bookId;
 
     @Column(nullable = false)

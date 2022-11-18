@@ -23,12 +23,12 @@ public class Reaction extends BaseTimeEntity {
     private Log log;
 
     @ManyToOne
-    @JoinColumn(name = "senderEmail", nullable = false)
+    @JoinColumn(name = "senderIdx", nullable = false)
     private Snob senderSnob;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "receiverEmail", nullable = false)
+    @JoinColumn(name = "receiverIdx", nullable = false)
     private Snob receiverSnob;
 
     @Column(nullable = false)

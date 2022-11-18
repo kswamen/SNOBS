@@ -20,7 +20,7 @@ public class RefreshTokenService {
 
     @Transactional
     public void saveToken(String token, String userEmail) {
-        Snob snob = snobRepository.findById(userEmail).orElseThrow(() -> {
+        Snob snob = snobRepository.findByUserEmail(userEmail).orElseThrow(() -> {
             throw new NoDataException("No User Found", ResponseCode.DATA_NOT_FOUND);
         });
         Optional<RefreshToken> temp = refreshTokenRepository.findBySnob(snob);
@@ -38,7 +38,7 @@ public class RefreshTokenService {
     }
 
     public boolean isValidRefreshToken(String userEmail, String refreshToken) {
-        Snob snob = snobRepository.findById(userEmail).orElseThrow(() -> {
+        Snob snob = snobRepository.findByUserEmail(userEmail).orElseThrow(() -> {
             throw new NoDataException("No User Found", ResponseCode.DATA_NOT_FOUND);
         });
         Optional<RefreshToken> temp = refreshTokenRepository.findBySnob(snob);

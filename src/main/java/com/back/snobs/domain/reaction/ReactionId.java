@@ -11,5 +11,5 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class ReactionId implements Serializable {
     private Long log;
-    private String snob;
+    private Long snob;
 }

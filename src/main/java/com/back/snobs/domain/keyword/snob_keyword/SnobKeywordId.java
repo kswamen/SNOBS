@@ -10,6 +10,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SnobKeywordId implements Serializable {
-    private String keyword;
-    private String snob;
+    private Long keyword;
+    private Long snob;
 }

@@ -31,8 +31,8 @@ public class BookService {
     private String url = "https://dapi.kakao.com/v3/search/book";
 
     // 책 정보 읽어오기
-    public ResponseEntity<CustomResponse> read(String bookId) {
-        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, bookRepository.findById(bookId).orElseThrow(() ->
+    public ResponseEntity<CustomResponse> read(Long bookIdx) {
+        return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, bookRepository.findById(bookIdx).orElseThrow(() ->
                 new NoDataException("No Such Book", ResponseCode.DATA_NOT_FOUND))),
                 HttpStatus.valueOf(200));
     }
@@ -58,6 +58,10 @@ public class BookService {
     // 책 등록
     @Transactional
     public ResponseEntity<CustomResponse> save(BookDto bookDto) {
+        if (bookRepository.existsByBookId(bookDto.getBookId())) {
+            return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, bookRepository.findByBookId(bookDto.getBookId())),
+                    HttpStatus.valueOf(200));
+        }
         Book book = bookDto.toEntity();
         return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, bookRepository.save(book)),
                 HttpStatus.valueOf(200));

@@ -44,7 +44,7 @@ public class MailService {
     public ResponseEntity<CustomResponse> mailSend(String address) {
         String verificationCode = String.format("%06d", new Random().nextInt(999999));
         String title = "스놉스에 오신 걸 환영합니다!";
-        Snob snob = snobRepository.findById(address).orElseThrow();
+        Snob snob = snobRepository.findByUserEmail(address).orElseThrow();
         try {
             MailHandler mailHandler = new MailHandler(mailSender);
             mailHandler.setTo(address);

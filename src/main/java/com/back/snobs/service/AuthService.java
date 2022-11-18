@@ -58,7 +58,7 @@ public class AuthService {
 
     @Transactional
     public ResponseEntity<?> registerUserWithEmailAndPassword(SignUpRequest signUpRequest) {
-        if(snobRepository.existsById(signUpRequest.getEmail())) {
+        if(snobRepository.existsByUserEmail(signUpRequest.getEmail())) {
             throw new BadRequestException("Email address already in use.");
         }
 
@@ -71,7 +71,6 @@ public class AuthService {
                 .cellPhoneCode(UUID.randomUUID().toString())
                 .gender(Gender.FEMALE)
                 .role(Role.USER)
-                .snobIdx(UUID.randomUUID().toString())
                 .build());
 
         URI location = ServletUriComponentsBuilder
