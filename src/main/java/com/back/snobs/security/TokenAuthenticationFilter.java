@@ -40,45 +40,44 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 //                    headers: headers,
 //                    credentials: 'include' // react 쪽 cors 설정 잊지 말자.
 //            };
-            authenticate("kimseokwon95@gmail.com", request);
-            filterChain.doFilter(request, response);
-
-
-//            String parameter = request.getParameter("accessToken");
-//            Optional<Cookie> accessTokenCookie = CookieUtils.getCookie(request,"accessToken");
-//            Optional<Cookie> refreshTokenCookie = CookieUtils.getCookie(request,"refreshToken");
-//            if (accessTokenCookie.isPresent()) {
-//                String accessToken = accessTokenCookie.get().getValue();
-//                if (tokenProvider.validateToken(accessToken)) {
-//                    String email = tokenProvider.getUserEmailFromToken(accessToken);
-//                    authenticate(email, request);
-//                }
-//                // access token 만기된 경우
-//                else {
-//                    if (refreshTokenCookie.isPresent()) {
-//                        String refreshToken = refreshTokenCookie.get().getValue();
-//                        if (tokenProvider.validateToken(refreshToken)) {
-//                            String email = tokenProvider.getUserEmailFromToken(refreshToken);
-//                            if (refreshTokenService.isValidRefreshToken(email, refreshToken)) {
-//                                String newToken = tokenProvider.createToken(email);
-//                                CookieUtils.addCookie(response, "accessToken", newToken, authProperties.getAuth().getTokenExpirationMsec());
-//                                authenticate(email, request);
-//                            }
-//                        }
-//                        // refresh token 만료(재 로그인 필요)
-//                        else {
-//                            throw new RefreshTokenExpiredException("Refresh Token Expired.");
-//                        }
-//                    }
-//                    // token 존재 안함(잘못된 요청)
-//                    else {
-//                        throw new BadRequestException("No Token Contained in Request.");
-//                    }
-//                }
-//            } else {
-//                throw new BadRequestException("No Token Contained in Request.");
-//            }
+//            authenticate("kimseokwon95@gmail.com", request);
 //            filterChain.doFilter(request, response);
+
+            String parameter = request.getParameter("accessToken");
+            Optional<Cookie> accessTokenCookie = CookieUtils.getCookie(request,"accessToken");
+            Optional<Cookie> refreshTokenCookie = CookieUtils.getCookie(request,"refreshToken");
+            if (accessTokenCookie.isPresent()) {
+                String accessToken = accessTokenCookie.get().getValue();
+                if (tokenProvider.validateToken(accessToken)) {
+                    String email = tokenProvider.getUserEmailFromToken(accessToken);
+                    authenticate(email, request);
+                }
+                // access token 만기된 경우
+                else {
+                    if (refreshTokenCookie.isPresent()) {
+                        String refreshToken = refreshTokenCookie.get().getValue();
+                        if (tokenProvider.validateToken(refreshToken)) {
+                            String email = tokenProvider.getUserEmailFromToken(refreshToken);
+                            if (refreshTokenService.isValidRefreshToken(email, refreshToken)) {
+                                String newToken = tokenProvider.createToken(email);
+                                CookieUtils.addCookie(response, "accessToken", newToken, authProperties.getAuth().getTokenExpirationMsec());
+                                authenticate(email, request);
+                            }
+                        }
+                        // refresh token 만료(재 로그인 필요)
+                        else {
+                            throw new RefreshTokenExpiredException("Refresh Token Expired.");
+                        }
+                    }
+                    // token 존재 안함(잘못된 요청)
+                    else {
+                        throw new BadRequestException("No Token Contained in Request.");
+                    }
+                }
+            } else {
+                throw new BadRequestException("No Token Contained in Request.");
+            }
+            filterChain.doFilter(request, response);
         }
         catch (Exception ex) {
             logger.error("Could not set user authentication in security context", ex);
