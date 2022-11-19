@@ -88,7 +88,7 @@ class LogServiceTest {
         given(snobRepository.findByUserEmail(any())).willReturn(Optional.of(
                 CreateDummyData.getOneSnob(LoginType.local, Role.GRANTED_USER)
         ));
-        given(bookRepository.findById(any())).willReturn(Optional.of(
+        given(bookRepository.findByBookId(any())).willReturn(Optional.of(
                 CreateDummyData.getOneBook()
         ));
         LogDto logDto = new LogDto();

@@ -16,7 +16,6 @@ import java.net.http.WebSocket;
 @Configuration
 @RequiredArgsConstructor
 public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
-    private final RedisTemplate redisTemplate;
 
     // WebSocket 커넥션 구축 EndPoint
     @Override

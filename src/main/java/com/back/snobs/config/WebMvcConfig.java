@@ -1,5 +1,7 @@
 package com.back.snobs.config;
 
+import com.back.snobs.security.interceptor.CustomInterceptor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,14 +9,22 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
     private final int FILE_MAX_UPLOAD_SIZE = 1024 * 1024 * 10;
+    private final CustomInterceptor customInterceptor;
 
     @Value("${app.cors.allowedOrigins}")
     private String[] allowedOrigins;
+
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(customInterceptor).addPathPatterns("/**");
+//    }
 
     @Bean
     public CommonsMultipartResolver multipartResolver() {
