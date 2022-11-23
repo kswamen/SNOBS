@@ -24,7 +24,7 @@ public class CommonService {
     @Transactional
     public ResponseEntity<CustomResponse> saveOrUpdateProfileImage(
             String userEmail, String filePath, String fileExtension, ProfileImageType profileImageType) {
-        Snob s = snobRepository.findById(userEmail).orElseThrow();
+        Snob s = snobRepository.findByUserEmail(userEmail).orElseThrow();
         Optional<ProfileImage> p = profileImageRepository.findBySnob_UserEmailAndProfileImageType(
                 userEmail, profileImageType
         );

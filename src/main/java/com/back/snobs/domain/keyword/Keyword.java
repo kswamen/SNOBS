@@ -3,6 +3,7 @@ package com.back.snobs.domain.keyword;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import reactor.util.annotation.Nullable;
 
 import javax.persistence.*;
 
@@ -14,6 +15,10 @@ import javax.persistence.*;
 @Entity
 public class Keyword {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long keywordIdx;
+
+    @Column(nullable = false)
     private String keywordName;
 
     @Builder

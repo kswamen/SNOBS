@@ -46,7 +46,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
 
-        Optional<Snob> userOptional = snobRepository.findById(oAuth2UserInfo.getEmail());
+        Optional<Snob> userOptional = snobRepository.findByUserEmail(oAuth2UserInfo.getEmail());
         Snob user;
         // 이미 존재하는 유저일 경우, OAuth2 정보에 따라 데이터베이스 업데이트
         if(userOptional.isPresent()) {
@@ -74,7 +74,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 .cellPhoneCode(UUID.randomUUID().toString())
                 .gender(Gender.MALE)
                 .role(Role.USER)
-                .snobIdx(UUID.randomUUID().toString())
                 .build();
 
         return snobRepository.save(user);

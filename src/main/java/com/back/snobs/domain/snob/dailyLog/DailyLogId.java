@@ -10,6 +10,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DailyLogId implements Serializable {
-    private String snob;
+    private Long snob;
     private Long log;
 }

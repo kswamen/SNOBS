@@ -28,7 +28,7 @@ public class UserController {
     public Snob getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
         System.out.println(userPrincipal.toString());
 
-        return snobRepository.findById(userPrincipal.getEmail())
+        return snobRepository.findByUserEmail(userPrincipal.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getEmail()));
     }
 

@@ -22,7 +22,7 @@ public class ProfileImage extends BaseTimeEntity {
 
     @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JsonIgnore
-    @JoinColumn(name = "writerEmail")
+    @JoinColumn(name = "snobIdx")
     private Snob snob;
 
     @Column(nullable = false)

@@ -10,7 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SnobGenreId implements Serializable {
-    private String genre;
-    private String snob;
+    private Long genre;
+    private Long snob;
 }
 

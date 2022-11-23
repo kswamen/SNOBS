@@ -40,6 +40,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 //                    headers: headers,
 //                    credentials: 'include' // react 쪽 cors 설정 잊지 말자.
 //            };
+//            authenticate("kimseokwon95@gmail.com", request);
+//            filterChain.doFilter(request, response);
+
             String parameter = request.getParameter("accessToken");
             Optional<Cookie> accessTokenCookie = CookieUtils.getCookie(request,"accessToken");
             Optional<Cookie> refreshTokenCookie = CookieUtils.getCookie(request,"refreshToken");

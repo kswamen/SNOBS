@@ -56,7 +56,7 @@ public class RepositoriesTest {
     @Test
     @DisplayName("Book - 조회")
     void bookRead() {
-        Book bookRead = bookRepository.findById(book.getBookId()).orElse(null);
+        Book bookRead = bookRepository.findById(book.getBookIdx()).orElse(null);
         assertNotNull(bookRead);
         assertEquals(bookRead.getBookId(), book.getBookId());
     }
@@ -72,8 +72,8 @@ public class RepositoriesTest {
     @DisplayName("Book - 삭제")
     void bookDelete() {
         bookRepository.save(book);
-        bookRepository.deleteById(book.getBookId());
-        assertTrue(bookRepository.findById(book.getBookId()).isEmpty());
+        bookRepository.deleteById(book.getBookIdx());
+        assertTrue(bookRepository.findById(book.getBookIdx()).isEmpty());
     }
 
     @Test
@@ -86,7 +86,7 @@ public class RepositoriesTest {
     @Test
     @DisplayName("Snob - 조회")
     void snobRead() {
-        Snob snobRead = snobRepository.findBySnobIdx(snob.getSnobIdx()).orElse(null);
+        Snob snobRead = snobRepository.findByUserEmail(snob.getUserEmail()).orElse(null);
         assertNotNull(snobRead);
         assertEquals(snobRead.getSnobIdx(), snob.getSnobIdx());
     }

@@ -21,8 +21,8 @@ public class BookController {
 
     // book select
     @GetMapping(value = "")
-    public ResponseEntity<CustomResponse> bookRead(@RequestParam(value = "bookId") String bookId) {
-        return bookService.read(bookId);
+    public ResponseEntity<CustomResponse> bookRead(@RequestParam(value = "bookIdx") Long bookIdx) {
+        return bookService.read(bookIdx);
     }
 
     // book save
