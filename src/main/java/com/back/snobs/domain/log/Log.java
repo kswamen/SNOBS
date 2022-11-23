@@ -34,7 +34,7 @@ public class Log extends BaseTimeEntity {
     private String logQuestion;
 
     @ManyToOne
-    @JoinColumn(name = "bookId")
+    @JoinColumn(name = "bookIdx")
     private Book book;
 
     @ManyToOne

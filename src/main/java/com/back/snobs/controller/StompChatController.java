@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class StompChatController {
     // 레디스 사용 방식 빈
-//    private final ChatMessageService chatMessageService;
+    private final ChatMessageService chatMessageService;
     // 레디스 없이 MySQL만 사용하는 방식 빈
-    private final ChatMessageServiceRdb chatMessageService;
+//    private final ChatMessageServiceRdb chatMessageService;
 
     private final RedisPublisher redisPublisher;
     private final RedisSubscriber redisSubscriber;
