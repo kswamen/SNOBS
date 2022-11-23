@@ -1,4 +1,4 @@
-package com.back.snobs.util;
+package com.back.snobs.other;
 
 import com.back.snobs.domain.book.Book;
 import com.back.snobs.domain.book.snob_book.SnobBook;

@@ -47,7 +47,7 @@ public class CustomInterceptor implements HandlerInterceptor {
                     if (tokenProvider.validateToken(refreshToken)) {
                         String email = tokenProvider.getUserEmailFromToken(refreshToken);
                         if (refreshTokenService.isValidRefreshToken(email, refreshToken)) {
-                            String newToken = tokenProvider.createToken(email);
+                            String newToken = tokenProvider.createAccessToken(email);
                             CookieUtils.addCookie(response, "accessToken", newToken, authProperties.getAuth().getTokenExpirationMsec());
                             authenticate(email, request);
                         }

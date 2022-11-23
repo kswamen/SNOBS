@@ -2,14 +2,13 @@ package com.back.snobs.service;
 
 import com.back.snobs.domain.book.Book;
 import com.back.snobs.domain.book.BookRepository;
-import com.back.snobs.domain.log.Log;
 import com.back.snobs.domain.log.LogDto;
 import com.back.snobs.domain.log.LogRepository;
 import com.back.snobs.domain.snob.*;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.exception.DifferentSnobException;
 import com.back.snobs.error.exception.NoDataException;
-import com.back.snobs.util.CreateDummyData;
+import com.back.snobs.other.CreateDummyData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

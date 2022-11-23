@@ -1,4 +1,4 @@
-package com.back.snobs.prev;
+package com.back.snobs.other.prev;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.junit.jupiter.api.Test;

@@ -6,7 +6,7 @@ import com.back.snobs.domain.snob.LoginType;
 import com.back.snobs.domain.snob.Role;
 import com.back.snobs.domain.snob.Snob;
 import com.back.snobs.error.CustomResponse;
-import com.back.snobs.util.CreateDummyData;
+import com.back.snobs.other.CreateDummyData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

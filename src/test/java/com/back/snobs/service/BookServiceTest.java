@@ -2,15 +2,15 @@ package com.back.snobs.service;
 
 import com.back.snobs.domain.book.BookDto;
 import com.back.snobs.domain.book.BookRepository;
-import com.back.snobs.domain.snob.SnobRepository;
 import com.back.snobs.error.CustomResponse;
-import com.back.snobs.util.CreateDummyData;
+import com.back.snobs.other.CreateDummyData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -20,6 +20,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+//@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class BookServiceTest {
     @Mock

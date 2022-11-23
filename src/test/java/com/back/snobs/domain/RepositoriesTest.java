@@ -8,14 +8,13 @@ import com.back.snobs.domain.snob.LoginType;
 import com.back.snobs.domain.snob.Role;
 import com.back.snobs.domain.snob.Snob;
 import com.back.snobs.domain.snob.SnobRepository;
-import com.back.snobs.util.CreateDummyData;
+import com.back.snobs.other.CreateDummyData;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 

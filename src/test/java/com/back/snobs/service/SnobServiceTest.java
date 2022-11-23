@@ -7,7 +7,7 @@ import com.back.snobs.domain.snob.Role;
 import com.back.snobs.domain.snob.SnobDto;
 import com.back.snobs.domain.snob.SnobRepository;
 import com.back.snobs.error.CustomResponse;
-import com.back.snobs.util.CreateDummyData;
+import com.back.snobs.other.CreateDummyData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;

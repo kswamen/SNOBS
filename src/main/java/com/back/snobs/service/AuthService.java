@@ -46,7 +46,7 @@ public class AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String token = tokenProvider.createToken(authentication);
+        String token = tokenProvider.createAccessToken(authentication);
         String refreshToken = tokenProvider.createRefreshToken(authentication);
 
         CookieUtils.addCookie(response, "accessToken", token, authProperties.getAuth().getTokenExpirationMsec());

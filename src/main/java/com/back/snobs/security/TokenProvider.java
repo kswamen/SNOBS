@@ -4,43 +4,35 @@ import com.back.snobs.config.AuthProperties;
 import com.back.snobs.service.RefreshTokenService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
 @Service
+@RequiredArgsConstructor
 public class TokenProvider {
     private final AuthProperties authProperties;
-    private final Key key;
+    private Key key;
     private final RefreshTokenService refreshTokenService;
 
-    public TokenProvider(AuthProperties authProperties, RefreshTokenService refreshTokenService) {
-        this.authProperties = authProperties;
-        this.refreshTokenService = refreshTokenService;
+    @PostConstruct
+    public void initKey() {
         this.key = Keys.hmacShaKeyFor(authProperties.getAuth().getTokenSecret().getBytes(StandardCharsets.UTF_8));
     }
 
     // create token
-    public String createToken(Authentication authentication) {
+    public String createAccessToken(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        return createToken(userPrincipal.getEmail());
-
-//        Date now = new Date();
-//        Date expiryDate = new Date(now.getTime() + authProperties.getAuth().getTokenExpirationMsec());
-//
-//        return Jwts.builder()
-//                .setSubject(userPrincipal.getEmail())
-//                .setIssuedAt(new Date())
-//                .setExpiration(expiryDate)
-////                .signWith(SignatureAlgorithm.HS512, authProperties.getAuth().getTokenSecret())
-//                .signWith(key, SignatureAlgorithm.HS512)
-//                .compact();
+        return createAccessToken(userPrincipal.getEmail());
     }
 
-    public String createToken(String userEmail) {
+    public String createAccessToken(String userEmail) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + authProperties.getAuth().getTokenExpirationMsec());
 
@@ -77,10 +69,6 @@ public class TokenProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-//        Claims claims = Jwts.parser()
-//                .setSigningKey(key)
-//                .parseClaimsJws(token)
-//                .getBody();
 
         return claims.getSubject();
     }
@@ -94,15 +82,19 @@ public class TokenProvider {
             return true;
         } catch (SecurityException ex) {
             System.out.println("Invalid JWT signature");
+            throw ex;
         } catch (MalformedJwtException ex) {
             System.out.println("Invalid JWT token");
+            throw ex;
         } catch (ExpiredJwtException ex) {
             System.out.println("Expired JWT token");
+            throw ex;
         } catch (UnsupportedJwtException ex) {
             System.out.println("Unsupported JWT token");
+            throw ex;
         } catch (IllegalArgumentException ex) {
             System.out.println("JWT claims string is empty.");
+            throw ex;
         }
-        return false;
     }
 }
