@@ -21,10 +21,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Value("${app.cors.allowedOrigins}")
     private String[] allowedOrigins;
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(customInterceptor).addPathPatterns("/**");
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(customInterceptor)
+                .addPathPatterns("/**");
+    }
 
     @Bean
     public CommonsMultipartResolver multipartResolver() {

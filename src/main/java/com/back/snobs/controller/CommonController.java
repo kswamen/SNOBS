@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import com.back.snobs.domain.log.Log;
 import com.back.snobs.domain.log.LogRepository;
+import com.back.snobs.domain.snob.Role;
 import com.back.snobs.domain.snob.Snob;
 import com.back.snobs.domain.snob.SnobRepository;
 import com.back.snobs.domain.snob.profileImage.ProfileImageType;
@@ -11,6 +12,7 @@ import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import com.back.snobs.error.exception.NoDataException;
 import com.back.snobs.security.UserPrincipal;
+import com.back.snobs.security.interceptor.CustomPreAuthorize;
 import com.back.snobs.security.oauth2.CurrentUser;
 import com.back.snobs.service.CommonService;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +48,8 @@ public class CommonController {
     public String bucket;
 
     @GetMapping("/myProfileImage")
-    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
+//    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
+    @CustomPreAuthorize(role = Role.USER)
     public ResponseEntity<Resource> download(@CurrentUser UserPrincipal userPrincipal, @RequestParam(required = false) ProfileImageType profileImageType) throws IOException {
         if(profileImageType == null) profileImageType = ProfileImageType.FIRST;
         String profileImagePath = commonService.getProfileImagePath(userPrincipal.getEmail(), profileImageType);
@@ -59,7 +62,8 @@ public class CommonController {
     }
 
     @GetMapping("/profileImage/byLogIdx")
-    @PreAuthorize("hasRole('GRANTED_USER')")
+//    @PreAuthorize("hasRole('GRANTED_USER')")
+    @CustomPreAuthorize(role = Role.GRANTED_USER)
     public ResponseEntity<Resource> byLogIdx(@CurrentUser UserPrincipal userPrincipal, @RequestParam Long logIdx, @RequestParam(required = false) ProfileImageType profileImageType) throws IOException {
         if(profileImageType == null) profileImageType = ProfileImageType.FIRST;
         Log log = logRepository.findById(logIdx).orElseThrow(() -> new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND));
@@ -74,7 +78,8 @@ public class CommonController {
     }
 
     @GetMapping("/profileImage/byUID")
-    @PreAuthorize("hasRole('GRANTED_USER')")
+    @CustomPreAuthorize(role = Role.GRANTED_USER)
+//    @PreAuthorize("hasRole('GRANTED_USER')")
     public ResponseEntity<Resource> byReactionIdx(@CurrentUser UserPrincipal userPrincipal, @RequestParam(required = false) ProfileImageType profileImageType) throws IOException {
         if(profileImageType == null) profileImageType = ProfileImageType.FIRST;
         Snob snob = snobRepository.findByUserEmail(userPrincipal.getEmail()).orElseThrow(() -> new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND));
@@ -108,7 +113,8 @@ public class CommonController {
 
     // file upload
     @PostMapping(value = "/myProfileImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
+//    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
+    @CustomPreAuthorize(role = Role.USER)
     public ResponseEntity<CustomResponse> upload(
             @CurrentUser UserPrincipal userPrincipal,
             @RequestParam("file") MultipartFile file,

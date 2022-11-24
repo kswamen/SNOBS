@@ -1,7 +1,9 @@
 package com.back.snobs.controller;
 
+import com.back.snobs.domain.snob.Role;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.security.UserPrincipal;
+import com.back.snobs.security.interceptor.CustomPreAuthorize;
 import com.back.snobs.security.oauth2.CurrentUser;
 import com.back.snobs.service.chatmessage.ChatMessageService;
 import com.back.snobs.service.ChatRoomService;
@@ -23,13 +25,15 @@ public class ChatRoomController {
     private final ChatMessageService chatMessageService;
 
     @PostMapping(value = "/room")
-    @PreAuthorize("hasRole('GRANTED_USER')")
+    @CustomPreAuthorize(role = Role.GRANTED_USER)
+//    @PreAuthorize("hasRole('GRANTED_USER')")
     public ResponseEntity<CustomResponse> chatRoomCreate(Long reactionIdx) {
         return chatRoomService.createChatRoom(reactionIdx);
     }
 
     @GetMapping(value = "/room")
-    @PreAuthorize("hasRole('GRANTED_USER')")
+    @CustomPreAuthorize(role = Role.GRANTED_USER)
+//    @PreAuthorize("hasRole('GRANTED_USER')")
     public ResponseEntity<CustomResponse> chatRoomGet(@CurrentUser UserPrincipal userPrincipal) {
         return chatRoomService.getChatRoom(userPrincipal.getEmail());
     }

@@ -1,6 +1,7 @@
 package com.back.snobs.util;
 
 import com.back.snobs.config.AuthProperties;
+import com.back.snobs.domain.snob.Role;
 import com.back.snobs.error.exception.NoDataException;
 import com.back.snobs.security.CustomUserDetailsService;
 import com.back.snobs.security.TokenProvider;
@@ -76,7 +77,7 @@ class TokenProviderTest {
         Thread.sleep(10);
 
         // then
-        assertThrows(ExpiredJwtException.class, () -> tokenProvider.validateToken(jwtToken));
+        assertThrows(ExpiredJwtException.class, () -> tokenProvider.validateToken(jwtToken, Role.GRANTED_USER));
     }
 
     @Test
@@ -93,6 +94,6 @@ class TokenProviderTest {
         tokenProvider.initKey();
 
         // then
-        assertThrows(SignatureException.class, () -> tokenProvider.validateToken(jwtToken));
+        assertThrows(SignatureException.class, () -> tokenProvider.validateToken(jwtToken, Role.GRANTED_USER));
     }
 }

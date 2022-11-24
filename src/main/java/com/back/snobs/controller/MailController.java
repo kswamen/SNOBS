@@ -1,7 +1,9 @@
 package com.back.snobs.controller;
 
+import com.back.snobs.domain.snob.Role;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.security.UserPrincipal;
+import com.back.snobs.security.interceptor.CustomPreAuthorize;
 import com.back.snobs.security.oauth2.CurrentUser;
 import com.back.snobs.service.MailService;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +23,15 @@ public class MailController {
 
     // Send Email to User
     @GetMapping("/verification")
-    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
+    @CustomPreAuthorize(role = Role.USER)
+//    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
     public ResponseEntity<CustomResponse> sendMail(@CurrentUser UserPrincipal userPrincipal) {
         return mailService.mailSend(userPrincipal.getEmail());
     }
 
     @PostMapping("/verification")
-    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
+    @CustomPreAuthorize(role = Role.USER)
+//    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
     public ResponseEntity<CustomResponse> checkCode(@CurrentUser UserPrincipal userPrincipal, String verificationCode) {
         return mailService.checkVerificationCode(userPrincipal.getEmail(), verificationCode);
     }

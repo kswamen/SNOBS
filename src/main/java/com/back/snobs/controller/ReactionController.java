@@ -1,8 +1,10 @@
 package com.back.snobs.controller;
 
 import com.back.snobs.domain.reaction.ReactionDto;
+import com.back.snobs.domain.snob.Role;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.security.UserPrincipal;
+import com.back.snobs.security.interceptor.CustomPreAuthorize;
 import com.back.snobs.security.oauth2.CurrentUser;
 import com.back.snobs.service.ReactionService;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +19,16 @@ public class ReactionController {
     private final ReactionService reactionService;
 
     @PostMapping(value = "")
-    @PreAuthorize("hasRole('GRANTED_USER')")
+//    @PreAuthorize("hasRole('GRANTED_USER')")
+    @CustomPreAuthorize(role = Role.GRANTED_USER)
     public ResponseEntity<CustomResponse> saveReaction(@CurrentUser UserPrincipal userPrincipal,
                                                                @RequestBody ReactionDto reactionDto) {
         return reactionService.createReaction(userPrincipal.getEmail(), reactionDto);
     }
 
     @GetMapping(value = "")
-    @PreAuthorize("hasRole('GRANTED_USER')")
+//    @PreAuthorize("hasRole('GRANTED_USER')")
+    @CustomPreAuthorize(role = Role.GRANTED_USER)
     public ResponseEntity<CustomResponse> getReaction(@CurrentUser UserPrincipal userPrincipal) {
         return reactionService.readReaction(userPrincipal.getEmail());
     }

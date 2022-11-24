@@ -25,7 +25,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 //            };
 //            authenticate("kimseokwon95@gmail.com", request);
 //            filterChain.doFilter(request, response);
-            jwtTokenValidator.validate(request, response);
+//            jwtTokenValidator.validate(request, response);
             filterChain.doFilter(request, response);
         }
         catch (Exception ex) {

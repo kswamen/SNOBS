@@ -1,6 +1,7 @@
 package com.back.snobs.util;
 
 import com.back.snobs.config.AuthProperties;
+import com.back.snobs.domain.snob.Role;
 import com.back.snobs.error.exception.BadRequestException;
 import com.back.snobs.error.exception.RefreshTokenExpiredException;
 import com.back.snobs.security.CustomUserDetailsService;
@@ -26,12 +27,12 @@ public class JwtTokenValidator {
     private final RefreshTokenService refreshTokenService;
     private final AuthProperties authProperties;
 
-    public void validate(HttpServletRequest request, HttpServletResponse response) {
+    public void validate(HttpServletRequest request, HttpServletResponse response, Role role) {
         Optional<Cookie> accessTokenCookie = CookieUtils.getCookie(request,"accessToken");
         Optional<Cookie> refreshTokenCookie = CookieUtils.getCookie(request,"refreshToken");
         if (accessTokenCookie.isPresent()) {
             String accessToken = accessTokenCookie.get().getValue();
-            if (tokenProvider.validateToken(accessToken)) {
+            if (tokenProvider.validateToken(accessToken, role)) {
                 String email = tokenProvider.getUserEmailFromToken(accessToken);
                 authenticate(email, request);
             }
@@ -39,7 +40,7 @@ public class JwtTokenValidator {
             else {
                 if (refreshTokenCookie.isPresent()) {
                     String refreshToken = refreshTokenCookie.get().getValue();
-                    if (tokenProvider.validateToken(refreshToken)) {
+                    if (tokenProvider.validateToken(refreshToken, role)) {
                         String email = tokenProvider.getUserEmailFromToken(refreshToken);
                         if (refreshTokenService.isValidRefreshToken(email, refreshToken)) {
                             String newToken = tokenProvider.createAccessToken(email);

@@ -11,4 +11,9 @@ public enum Role {
 
     private final String key;
     private final String title;
+
+    // 일반 유저가 정보 입력된 유저 역할로 들어올 경우만 잘못됨
+    public static boolean roleCheck(Role role1, Role role2) {
+        return role1 != Role.USER || role2 != Role.GRANTED_USER;
+    }
 }

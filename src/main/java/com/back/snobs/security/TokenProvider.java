@@ -1,12 +1,15 @@
 package com.back.snobs.security;
 
 import com.back.snobs.config.AuthProperties;
+import com.back.snobs.domain.snob.Role;
+import com.back.snobs.domain.snob.Snob;
+import com.back.snobs.domain.snob.SnobRepository;
 import com.back.snobs.service.RefreshTokenService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +22,7 @@ import java.util.Date;
 public class TokenProvider {
     private final AuthProperties authProperties;
     private Key key;
+    private final SnobRepository snobRepository;
     private final RefreshTokenService refreshTokenService;
 
     @PostConstruct
@@ -73,13 +77,14 @@ public class TokenProvider {
         return claims.getSubject();
     }
 
-    public boolean validateToken(String authToken) {
+    public boolean validateToken(String authToken, Role role) {
         try {
-            Jwts.parserBuilder()
+            Jws<Claims> jws = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(authToken);
-            return true;
+
+            return isValidRoleUser(jws.getBody().get("sub", String.class), role);
         } catch (SecurityException ex) {
             System.out.println("Invalid JWT signature");
             throw ex;
@@ -96,5 +101,12 @@ public class TokenProvider {
             System.out.println("JWT claims string is empty.");
             throw ex;
         }
+    }
+
+    private boolean isValidRoleUser(String userEmail, Role role) {
+        Snob snob = snobRepository.findByUserEmail(userEmail).orElseThrow(() ->
+                new UsernameNotFoundException("User not found with email :" + userEmail));
+
+        return Role.roleCheck(snob.getRole(), role);
     }
 }

@@ -1,8 +1,10 @@
 package com.back.snobs.controller;
 
+import com.back.snobs.domain.snob.Role;
 import com.back.snobs.domain.snob.SnobDto;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.security.UserPrincipal;
+import com.back.snobs.security.interceptor.CustomPreAuthorize;
 import com.back.snobs.security.oauth2.CurrentUser;
 import com.back.snobs.service.SnobService;
 import lombok.RequiredArgsConstructor;
@@ -20,14 +22,15 @@ public class SnobController {
 
     // Snob Read
     @GetMapping(value = "")
-//    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
-    @PreAuthorize("hasRole('GRANTED_USER')")
+//    @PreAuthorize("hasRole('GRANTED_USER')")
+    @CustomPreAuthorize(role = Role.GRANTED_USER)
     public ResponseEntity<CustomResponse> snobRead(@CurrentUser UserPrincipal userPrincipal) {
         return snobService.read(userPrincipal.getEmail());
     }
 
     @PatchMapping(value = "")
-    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
+    @CustomPreAuthorize(role = Role.USER)
+//    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
     public ResponseEntity<CustomResponse> snobUpdate(@CurrentUser UserPrincipal userPrincipal, @RequestBody SnobDto snobDto) {
         return snobService.save(snobDto, userPrincipal.getEmail());
     }
@@ -74,7 +77,8 @@ public class SnobController {
     }
 
     @GetMapping(value = "/dailyLog")
-    @PreAuthorize("hasRole('GRANTED_USER')")
+    @CustomPreAuthorize(role = Role.GRANTED_USER)
+//    @PreAuthorize("hasRole('GRANTED_USER')")
     public ResponseEntity<CustomResponse> snobGetDailyLog(@CurrentUser UserPrincipal userPrincipal) {
         return snobService.getSnobDailyLog(userPrincipal.getEmail());
     }

@@ -1,9 +1,11 @@
 package com.back.snobs.controller;
 
+import com.back.snobs.domain.snob.Role;
 import com.back.snobs.domain.snob.Snob;
 import com.back.snobs.domain.snob.SnobRepository;
 import com.back.snobs.error.exception.ResourceNotFoundException;
 import com.back.snobs.security.UserPrincipal;
+import com.back.snobs.security.interceptor.CustomPreAuthorize;
 import com.back.snobs.security.oauth2.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +26,8 @@ public class UserController {
     private final SnobRepository snobRepository;
 
     @GetMapping("/api/user/me")
-    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
+//    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
+    @CustomPreAuthorize(role = Role.USER)
     public Snob getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
         System.out.println(userPrincipal.toString());
 
@@ -34,7 +37,8 @@ public class UserController {
 
     // 권한 변경
     @GetMapping("/api/user/info")
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
+    @CustomPreAuthorize(role = Role.USER)
     public String test(@CurrentUser UserPrincipal userPrincipal) {
         Authentication a = SecurityContextHolder.getContext().getAuthentication();
         List<GrantedAuthority> updatedAuthorities = new ArrayList<>(a.getAuthorities());
