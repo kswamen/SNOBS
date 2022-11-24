@@ -7,8 +7,14 @@ import com.back.snobs.domain.snob.Gender;
 import com.back.snobs.domain.snob.LoginType;
 import com.back.snobs.domain.snob.Role;
 import com.back.snobs.domain.snob.Snob;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 public class CreateDummyData {
@@ -55,5 +61,19 @@ public class CreateDummyData {
                 .book(getOneBook())
                 .readed(true)
                 .build();
+    }
+
+    public static String createJwtToken(String userEmail) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + 500000);
+        Key key = Keys.hmacShaKeyFor("A".repeat(128).getBytes(StandardCharsets.UTF_8));
+
+        return Jwts.builder()
+                .setSubject(userEmail)
+                .setIssuedAt(new Date())
+                .setExpiration(expiryDate)
+//                .signWith(SignatureAlgorithm.HS512, authProperties.getAuth().getTokenSecret())
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
     }
 }

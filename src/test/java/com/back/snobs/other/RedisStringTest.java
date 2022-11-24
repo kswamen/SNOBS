@@ -2,12 +2,11 @@ package com.back.snobs.other;
 
 import com.back.snobs.domain.chatroom.chatmessage.ChatMessage;
 import com.back.snobs.util.RedisUtils;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
@@ -26,7 +25,7 @@ public class RedisStringTest {
         ChatMessage chatMessage = ChatMessage.builder()
                 .message("hello")
                 .chatRoomIdx(31337L)
-                .userIdx("alsdkjflaksjdf")
+                .userIdx(2L)
                 .createDate(System.currentTimeMillis())
                 .build();
 
@@ -40,14 +39,14 @@ public class RedisStringTest {
         ChatMessage chatMessage1 = ChatMessage.builder()
                 .message("hello")
                 .chatRoomIdx(31337L)
-                .userIdx("32870249-9fb1-470a-8e0f-03c1d0701e29")
+                .userIdx(1L)
                 .createDate(System.currentTimeMillis())
                 .build();
 
         ChatMessage chatMessage2 = ChatMessage.builder()
                 .message("hello")
                 .chatRoomIdx(31337L)
-                .userIdx("b0c2eb23-ae1f-44eb-ac11-d57158cb6bfb")
+                .userIdx(2L)
                 .createDate(System.currentTimeMillis())
                 .build();
 

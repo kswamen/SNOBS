@@ -1,6 +1,7 @@
 package com.back.snobs.error;
 
 import com.back.snobs.error.exception.*;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -80,6 +81,13 @@ public class GlobalExceptionHandler {
         log.error("AccessDeniedException", ex);
         CustomResponse response = new CustomResponse(ResponseCode.ACCESS_DENIED);
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<CustomResponse> handleExpiredJwtException(ExpiredJwtException ex) {
+        log.error("ExpiredJwtException", ex);
+        CustomResponse response = new CustomResponse(ResponseCode.TOKEN_EXPIRED);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)

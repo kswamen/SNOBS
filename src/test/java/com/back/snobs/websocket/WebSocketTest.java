@@ -2,7 +2,6 @@ package com.back.snobs.websocket;
 
 import com.back.snobs.domain.chatroom.chatmessage.ChatMessage;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
@@ -23,8 +22,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.awaitility.Awaitility.await;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class WebSocketTest {
@@ -34,7 +33,7 @@ public class WebSocketTest {
     private final ChatMessage chatMessage = ChatMessage.builder()
             .message("asdf")
             .chatRoomIdx(123L)
-            .userIdx("asdf")
+            .userIdx(1L)
             .build();
 
     private WebSocketStompClient webSocketStompClient;

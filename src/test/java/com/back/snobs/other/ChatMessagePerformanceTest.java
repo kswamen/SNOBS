@@ -2,12 +2,10 @@ package com.back.snobs.other;
 
 import com.back.snobs.domain.chatroom.ChatRoom;
 import com.back.snobs.domain.chatroom.ChatRoomRepository;
-import com.back.snobs.domain.chatroom.chatmessage.ChatMessage;
 import com.back.snobs.domain.chatroom.chatmessage.ChatMessageRdb;
 import com.back.snobs.domain.chatroom.chatmessage.ChatMessageRepositoryRdb;
 import com.back.snobs.service.chatmessage.ChatMessageService;
 import com.back.snobs.service.chatmessage.ChatMessageServiceRdb;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -76,13 +74,13 @@ class ChatMessagePerformanceTest {
         List<ChatMessageRdb> list = new ArrayList<>();
         Random r = new Random();
         for (ChatRoom chatRoom : chatRoomList) {
-            String idx;
+            long idx;
             int x = r.nextInt(2);
             if (x == 0) {
-                idx = "1caf922d-b72c-4b0c-8b40-75ad52e4890a";
+                idx = 1L;
             }
             else {
-                idx = "eef19194-aa45-4dec-bba2-3d4926ed7791";
+                idx = 2L;
             }
             ChatMessageRdb messageRdb = ChatMessageRdb.builder()
                     .chatRoomIdx(chatRoom.getChatRoomIdx())
