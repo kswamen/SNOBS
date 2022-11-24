@@ -1,18 +1,14 @@
 package com.back.snobs.service.chatmessage;
 
-import com.back.snobs.domain.chatroom.ChatRoom;
-import com.back.snobs.domain.chatroom.ChatRoomRepository;
 import com.back.snobs.domain.chatroom.chatmessage.ChatMessage;
 import com.back.snobs.domain.chatroom.chatmessage.ChatMessageDto;
 import com.back.snobs.domain.chatroom.chatmessage.ChatMessageRdb;
-import com.back.snobs.domain.chatroom.chatmessage.ChatMessageRepositoryRdb;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import com.back.snobs.util.RedisUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -25,8 +21,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -85,7 +79,7 @@ public class ChatMessageService implements ChatMessageServiceInterface{
                 ps.setLong(1, atMsgs.get(i).getCreateDate());
                 ps.setLong(2, atMsgs.get(i).getChatRoomIdx());
                 ps.setString(3, atMsgs.get(i).getMessage());
-                ps.setString(4, atMsgs.get(i).getUserIdx());
+                ps.setLong(4, atMsgs.get(i).getUserIdx());
             }
 
             @Override

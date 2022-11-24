@@ -21,7 +21,7 @@ public class ChatMessageRdb {
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "userEmail")
-    private String userIdx;
+    private Long userIdx;
 
     private Long createDate;
 
@@ -29,7 +29,7 @@ public class ChatMessageRdb {
     private String message;
 
     @Builder
-    public ChatMessageRdb(Long chatRoomIdx, String userIdx, String message, Long createDate) {
+    public ChatMessageRdb(Long chatRoomIdx, Long userIdx, String message, Long createDate) {
         this.chatRoomIdx = chatRoomIdx;
         this.userIdx = userIdx;
         this.message = message;

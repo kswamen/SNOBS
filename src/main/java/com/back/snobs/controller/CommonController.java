@@ -23,7 +23,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -80,9 +79,12 @@ public class CommonController {
     @GetMapping("/profileImage/byUID")
     @CustomPreAuthorize(role = Role.GRANTED_USER)
 //    @PreAuthorize("hasRole('GRANTED_USER')")
-    public ResponseEntity<Resource> byReactionIdx(@CurrentUser UserPrincipal userPrincipal, @RequestParam(required = false) ProfileImageType profileImageType) throws IOException {
+    public ResponseEntity<Resource> byReactionIdx(@CurrentUser UserPrincipal userPrincipal,
+                                                  @RequestParam(required = false) ProfileImageType profileImageType,
+                                                  @RequestParam Long UID) throws IOException {
         if(profileImageType == null) profileImageType = ProfileImageType.FIRST;
-        Snob snob = snobRepository.findByUserEmail(userPrincipal.getEmail()).orElseThrow(() -> new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND));
+        Snob snob = snobRepository.findById(UID).orElseThrow(() -> new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND));
+//        Snob snob = snobRepository.findByUserEmail(userPrincipal.getEmail()).orElseThrow(() -> new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND));
         String profileImagePath = commonService.getProfileImagePath(snob.getUserEmail(), profileImageType);
 
         String[] params = profileImagePath.split("\\\\");

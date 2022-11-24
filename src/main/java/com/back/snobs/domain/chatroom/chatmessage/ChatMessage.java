@@ -11,11 +11,11 @@ import java.io.Serializable;
 public class ChatMessage implements Serializable {
     private Long chatRoomIdx;
     private String message;
-    private String userIdx;
+    private Long userIdx;
     private Long createDate;
 
     @Builder
-    public ChatMessage(Long chatRoomIdx, String message, String userIdx, Long createDate) {
+    public ChatMessage(Long chatRoomIdx, String message, Long userIdx, Long createDate) {
         this.chatRoomIdx = chatRoomIdx;
         this.message = message;
         this.userIdx = userIdx;

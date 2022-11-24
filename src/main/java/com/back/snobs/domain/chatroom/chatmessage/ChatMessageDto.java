@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 public class ChatMessageDto {
     private Long chatRoomIdx;
     private String message;
-    private String userIdx;
+    private Long userIdx;
     private Long createDate;
 
     public ChatMessage toEntity() {
@@ -22,7 +22,7 @@ public class ChatMessageDto {
     }
 
     @Builder
-    public ChatMessageDto(Long chatRoomIdx, String message, String userIdx, Long createDate) {
+    public ChatMessageDto(Long chatRoomIdx, String message, Long userIdx, Long createDate) {
         this.chatRoomIdx = chatRoomIdx;
         this.message = message;
         this.userIdx = userIdx;
