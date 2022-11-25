@@ -2,35 +2,25 @@ package com.back.snobs.util;
 
 import com.back.snobs.config.AuthProperties;
 import com.back.snobs.domain.snob.Role;
-import com.back.snobs.error.exception.NoDataException;
-import com.back.snobs.security.CustomUserDetailsService;
 import com.back.snobs.security.TokenProvider;
-import com.back.snobs.service.RefreshTokenService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.annotation.PostConstruct;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TokenProviderTest {
-    @Mock
-    CustomUserDetailsService customUserDetailsService;
-    @Mock
-    RefreshTokenService refreshTokenService;
 
     @InjectMocks
     TokenProvider tokenProvider;
-    @InjectMocks
-    JwtTokenValidator jwtTokenValidator;
 
     AuthProperties authProperties;
 

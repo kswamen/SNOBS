@@ -93,7 +93,7 @@ public class TokenProvider {
             throw ex;
         } catch (ExpiredJwtException ex) {
             System.out.println("Expired JWT token");
-            return false;
+            throw ex;
         } catch (UnsupportedJwtException ex) {
             System.out.println("Unsupported JWT token");
             throw ex;

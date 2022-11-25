@@ -76,4 +76,18 @@ public class CreateDummyData {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
+
+    public static String createSoonExpireJwtToken(String userEmail) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + 1);
+        Key key = Keys.hmacShaKeyFor("A".repeat(128).getBytes(StandardCharsets.UTF_8));
+
+        return Jwts.builder()
+                .setSubject(userEmail)
+                .setIssuedAt(new Date())
+                .setExpiration(expiryDate)
+//                .signWith(SignatureAlgorithm.HS512, authProperties.getAuth().getTokenSecret())
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
 }

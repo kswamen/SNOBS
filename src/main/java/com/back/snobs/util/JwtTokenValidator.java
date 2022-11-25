@@ -2,11 +2,11 @@ package com.back.snobs.util;
 
 import com.back.snobs.config.AuthProperties;
 import com.back.snobs.domain.snob.Role;
-import com.back.snobs.error.exception.BadRequestException;
-import com.back.snobs.error.exception.RefreshTokenExpiredException;
+import com.back.snobs.error.exception.TokenNotContainedException;
 import com.back.snobs.security.CustomUserDetailsService;
 import com.back.snobs.security.TokenProvider;
 import com.back.snobs.service.RefreshTokenService;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,34 +32,30 @@ public class JwtTokenValidator {
         Optional<Cookie> refreshTokenCookie = CookieUtils.getCookie(request,"refreshToken");
         if (accessTokenCookie.isPresent()) {
             String accessToken = accessTokenCookie.get().getValue();
-            if (tokenProvider.validateToken(accessToken, role)) {
+            try {
+                tokenProvider.validateToken(accessToken, role);
                 String email = tokenProvider.getUserEmailFromToken(accessToken);
                 authenticate(email, request);
-            }
-            // access token 만기된 경우
-            else {
+            } catch (ExpiredJwtException ex) {
+                // access token 만기된 경우
                 if (refreshTokenCookie.isPresent()) {
                     String refreshToken = refreshTokenCookie.get().getValue();
-                    if (tokenProvider.validateToken(refreshToken, role)) {
-                        String email = tokenProvider.getUserEmailFromToken(refreshToken);
-                        if (refreshTokenService.isValidRefreshToken(email, refreshToken)) {
-                            String newToken = tokenProvider.createAccessToken(email);
-                            CookieUtils.addCookie(response, "accessToken", newToken, authProperties.getAuth().getTokenExpirationMsec());
-                            authenticate(email, request);
-                        }
-                    }
-                    // refresh token 만료(재 로그인 필요)
-                    else {
-                        throw new RefreshTokenExpiredException("Refresh Token Expired.");
+                    tokenProvider.validateToken(refreshToken, role);
+                    String email = tokenProvider.getUserEmailFromToken(refreshToken);
+                    if (refreshTokenService.isValidRefreshToken(email, refreshToken)) {
+                        String newToken = tokenProvider.createAccessToken(email);
+                        CookieUtils.addCookie(response, "accessToken", newToken, authProperties.getAuth().getTokenExpirationMsec());
+                        authenticate(email, request);
                     }
                 }
+
                 // token 존재 안함(잘못된 요청)
                 else {
-                    throw new BadRequestException("No Token Contained in Request.");
+                    throw new TokenNotContainedException("Token is NOT Contained.");
                 }
             }
         } else {
-            throw new BadRequestException("No Token Contained in Request.");
+            throw new TokenNotContainedException("Token is NOT Contained.");
         }
     }
 

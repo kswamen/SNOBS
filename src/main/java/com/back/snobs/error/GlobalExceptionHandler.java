@@ -87,6 +87,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<CustomResponse> handleExpiredJwtException(ExpiredJwtException ex) {
         log.error("ExpiredJwtException", ex);
         CustomResponse response = new CustomResponse(ResponseCode.TOKEN_EXPIRED);
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(TokenNotContainedException.class)
+    public ResponseEntity<CustomResponse> handleTokenNotContainedException(TokenNotContainedException ex) {
+        log.error("TokenNotContainedException", ex);
+        CustomResponse response = new CustomResponse(ResponseCode.TOKEN_NOT_CONTAINED);
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 

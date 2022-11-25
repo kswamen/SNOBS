@@ -43,7 +43,7 @@ public class LogService {
     public ResponseEntity<CustomResponse> delete(Long logIdx, String userEmail) {
         Log log = logRepository.findById(logIdx).orElseThrow(() -> new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND));
         if(!log.getSnob().getUserEmail().equals(userEmail)) {
-            throw new DifferentSnobException("different snob", ResponseCode.DIFFERNT_SNOB);
+            throw new DifferentSnobException("different snob", ResponseCode.DIFFERENT_SNOB);
         } else {
             logRepository.delete(log);
             return new ResponseEntity<>(new CustomResponse(ResponseCode.SUCCESS, "log deleted"),
