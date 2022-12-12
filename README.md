@@ -6,6 +6,7 @@
 
   [https://github.com/kswamen/snobs](https://github.com/kswamen/snobs)
 
+- [채팅 솔루션 Redis, MySQL 성능 비교 페이지](https://west-wedge-e15.notion.site/Redis-MySQL-Chat-Insert-1fb2c86124f249e69411a3acbb63bb5e)
 
 ## SNOBS란?
 
