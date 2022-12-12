@@ -6,8 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 @Slf4j
@@ -95,6 +97,13 @@ public class GlobalExceptionHandler {
         log.error("TokenNotContainedException", ex);
         CustomResponse response = new CustomResponse(ResponseCode.TOKEN_NOT_CONTAINED);
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler({HttpClientErrorException.class, MissingServletRequestParameterException.class})
+    public ResponseEntity<CustomResponse> handleClientErrorException(Exception ex) {
+        log.error("ClientErrorException", ex);
+        CustomResponse response = new CustomResponse(ResponseCode.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)

@@ -2,6 +2,8 @@ package com.back.snobs.security.interceptor;
 
 import com.back.snobs.util.JwtTokenValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -26,6 +28,7 @@ public class CustomInterceptor implements HandlerInterceptor {
         if (customPreAuthorize == null) {
             return true;
         }
+        SecurityContext sc = SecurityContextHolder.getContext();
 
         jwtTokenValidator.validate(request, response, customPreAuthorize.role());
         return true;

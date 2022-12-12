@@ -1,19 +1,15 @@
 package com.back.snobs.service.chatmessage;
 
-import com.back.snobs.domain.chatroom.ChatRoom;
 import com.back.snobs.domain.chatroom.ChatRoomRepository;
 import com.back.snobs.domain.chatroom.chatmessage.ChatMessageDto;
 import com.back.snobs.domain.chatroom.chatmessage.ChatMessageRdb;
 import com.back.snobs.domain.chatroom.chatmessage.ChatMessageRepositoryRdb;
-import com.back.snobs.domain.snob.SnobRepository;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,14 +23,14 @@ public class ChatMessageServiceRdb implements ChatMessageServiceInterface {
 
 //    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public ChatMessageDto saveMessage(ChatMessageDto chatMessageDto) {
+        long prev = System.currentTimeMillis();
         chatMessageRepositoryRdb.save(ChatMessageRdb.builder()
                 .chatRoomIdx(chatMessageDto.getChatRoomIdx())
                 .userIdx(chatMessageDto.getUserIdx())
                 .message(chatMessageDto.getMessage()).build());
-
         long now = System.currentTimeMillis();
         chatMessageDto.setCreateDate(now);
-
+        System.out.println("수행시간: " + (int) (now - prev));
         return chatMessageDto;
     }
 

@@ -4,7 +4,7 @@ import com.back.snobs.config.AuthProperties;
 import com.back.snobs.domain.snob.*;
 import com.back.snobs.error.CustomResponse;
 import com.back.snobs.error.ResponseCode;
-import com.back.snobs.error.exception.BadRequestException;
+import com.back.snobs.error.exception.EmailDuplicateException;
 import com.back.snobs.payload.AuthResponse;
 import com.back.snobs.payload.LoginRequest;
 import com.back.snobs.payload.SignUpRequest;
@@ -59,7 +59,7 @@ public class AuthService {
     @Transactional
     public ResponseEntity<?> registerUserWithEmailAndPassword(SignUpRequest signUpRequest) {
         if(snobRepository.existsByUserEmail(signUpRequest.getEmail())) {
-            throw new BadRequestException("Email address already in use.");
+            throw new EmailDuplicateException("Email address already in use.", ResponseCode.EMAIL_DUPLICATION);
         }
 
         Snob result = snobRepository.save(Snob.builder()

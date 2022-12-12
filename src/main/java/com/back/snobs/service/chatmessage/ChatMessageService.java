@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.sql.PreparedStatement;
@@ -35,12 +34,14 @@ public class ChatMessageService implements ChatMessageServiceInterface{
         listOperations = redisTemplate.opsForList();
     }
 
-    @Transactional
+//    @Transactional
     public ChatMessageDto saveMessage(ChatMessageDto chatMessageDto) {
         long now = System.currentTimeMillis();
         chatMessageDto.setCreateDate(now);
         ChatMessage chatMessage = chatMessageDto.toEntity();
         listOperations.rightPush(RedisUtils.getChatRoomKey(chatMessage.getChatRoomIdx()), chatMessage);
+        long now2 = System.currentTimeMillis();
+        System.out.println("수행시간: " + (int) (now2 - now));
 
         return chatMessageDto;
     }
