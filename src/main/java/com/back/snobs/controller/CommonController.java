@@ -99,20 +99,6 @@ public class CommonController {
                 .body(inputStream);
     }
 
-//    @GetMapping("/profileImage/byUID")
-//    @PreAuthorize("hasRole('GRANTED_USER')")
-//    public ResponseEntity<Resource> byReactionIdx(@CurrentUser UserPrincipal userPrincipal, @RequestParam String UID, @RequestParam(required = false) ProfileImageType profileImageType) throws IOException {
-//        if(profileImageType == null) profileImageType = ProfileImageType.FIRST;
-//        Snob snob = snobRepository.findBySnobIdx(UID).orElseThrow(() -> new NoDataException("No Such Data", ResponseCode.DATA_NOT_FOUND));
-//        String profileImagePath = commonService.getProfileImagePath(snob.getUserEmail(), profileImageType);
-//        final ByteArrayResource inputStream = new ByteArrayResource(Files.readAllBytes(Paths.get(profileImagePath)));
-//
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .contentLength(inputStream.contentLength())
-//                .body(inputStream);
-//    }
-
     // file upload
     @PostMapping(value = "/myProfileImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 //    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
@@ -138,50 +124,4 @@ public class CommonController {
         return commonService.saveOrUpdateProfileImage(userEmail,
                 filePath + '\\' + uniqueFileName, ext, profileImageType);
     }
-
-//    // file upload
-//    @PostMapping("/myProfileImage")
-//    @PreAuthorize("hasAnyRole('USER', 'GRANTED_USER')")
-//    public ResponseEntity<CustomResponse> upload(
-//            @CurrentUser UserPrincipal userPrincipal, @RequestParam("file")MultipartFile file,
-//            ProfileImageType profileImageType) {
-////        System.out.println("파일 이름 : " + file.getOriginalFilename());
-////        System.out.println("파일 크기 : " + file.getSize());
-//
-//        String userEmail = userPrincipal.getEmail();
-//
-////        Snob s = snobRepository.findById("a@a.com").orElseThrow();
-////        System.out.println(s.getCreateDate().toLocalDate());
-//
-//        String ext = StringUtils.getFilenameExtension(file.getOriginalFilename());
-//        String uniqueFileName = UUID.randomUUID() + "." + ext;
-//        String filePath = uploadPath + File.separator + LocalDate.now();
-//        try {
-//            File f = new File(filePath);
-//            if(!f.exists()) {
-//                try {
-//                    f.mkdirs();
-//                } catch(Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            FileOutputStream fos = new FileOutputStream(f.getAbsolutePath()
-//                    + File.separator + uniqueFileName);
-//            InputStream is = file.getInputStream();
-//            int readCount = 0;
-//            byte[] buffer = new byte[1024];
-//
-//            while ((readCount = is.read(buffer)) != -1) {
-//                fos.write(buffer, 0, readCount);
-//            }
-//
-//            fos.close();
-//            is.close();
-//        } catch (Exception ex) {
-//            throw new RuntimeException("file Save Error");
-//        }
-//
-//        return commonService.saveOrUpdateProfileImage(userEmail,
-//                filePath + File.separator + uniqueFileName, ext, profileImageType);
-//    }
 }
